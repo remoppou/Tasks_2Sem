@@ -13,13 +13,13 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск TreeNode по значению в поддереве node
      *
-     * @param node
+     * @param node Узел дерева
      * @param value Значение для поиска
      * @return Узел, содержащий искомый элемент
      */
     default DefaultBinaryTree.TreeNode<T> getNode(DefaultBinaryTree.TreeNode<T> node, T value) {
         if (node == null) {
-            return node;
+            return null;
         }
         int cmp = node.getValue().compareTo(value);
         if (cmp == 0) {
@@ -30,6 +30,25 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
             return getNode(node.getRight(), value);
         }
     }
+
+    /*
+      Реализации без рекурсии (для сравнения)
+
+     default DefaultBinaryTree.TreeNode<T> getNode(DefaultBinaryTree.TreeNode<T> node, T value) {
+        while (node != null) {
+            int cmp = node.getValue().compareTo(value);
+            if (cmp == 0) {
+                break;
+            } else if (cmp > 0) {
+                return node = node.getLeft();
+            } else {
+                return node = node.getRight();
+            }
+        }
+        return node;
+    }
+
+     */
 
     /**
      * Поиск TreeNode по значению
@@ -102,6 +121,21 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
         return (node == null || node.getLeft() == null) ? node : getMinNode(node.getLeft());
     }
 
+    /*
+      Реализации без рекурсии (для сравнения)
+
+    default DefaultBinaryTree.TreeNode<T> getMinNode(DefaultBinaryTree.TreeNode<T> node) {
+        if (node == null) {
+            return null;
+        }
+        while (node.getLeft() != null) {
+            node = node.getLeft();
+        }
+        return node;
+    }
+
+     */
+
     /**
      * Поиск минимального TreeNode
      *
@@ -124,7 +158,7 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск максимального TreeNode в поддереве node
      *
-     * @param node
+     * @param node Узел дерева
      * @return Узел, содержащий максимальный элемент
      */
     default DefaultBinaryTree.TreeNode<T> getMaxNode(DefaultBinaryTree.TreeNode<T> node) {
@@ -154,8 +188,8 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
      * Поиск TreeNode с наибольшим значением, меньшим или равным value, в
      * поддереве node
      *
-     * @param node
-     * @param value
+     * @param node Узел дерева
+     * @param value Параметр
      * @return Узел, содержащий искомый элемент
      */
     default DefaultBinaryTree.TreeNode<T> getFloorNode(DefaultBinaryTree.TreeNode<T> node, T value) {
@@ -176,7 +210,7 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск TreeNode с наибольшим значением, меньшим или равным value
      *
-     * @param value
+     * @param value Параметр
      * @return Узел, содержащий искомый элемент
      */
     default DefaultBinaryTree.TreeNode<T> getFloorNode(T value) {
@@ -186,7 +220,7 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск наибольшего значения, меньшего или равного value
      *
-     * @param value
+     * @param value Параметр
      * @return Искомое значение
      */
     default T getFloor(T value) {
@@ -198,8 +232,8 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
      * Поиск TreeNode с наименьшим значением, большим или равным value, в
      * поддереве node
      *
-     * @param node
-     * @param value
+     * @param node Узел дерева
+     * @param value Параметр
      * @return Узел, содержащий искомый элемент
      */
     default DefaultBinaryTree.TreeNode<T> getCeilingNode(DefaultBinaryTree.TreeNode<T> node, T value) {
@@ -220,7 +254,7 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск TreeNode с наименьшим значением, большим или равным value
      *
-     * @param value
+     * @param value Параметр
      * @return Узел, содержащий искомый элемент
      */
     default DefaultBinaryTree.TreeNode<T> getCeilingNode(T value) {
@@ -230,7 +264,7 @@ public interface DefaultBSTree<T extends Comparable<? super T>> extends DefaultB
     /**
      * Поиск наименьшего значения, меньше или равного value
      *
-     * @param value
+     * @param value Параметр
      * @return Искомое значение
      */
     default T getCeiling(T value) {
