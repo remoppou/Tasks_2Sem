@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -49,11 +47,10 @@ public class SortDemoFrame extends JFrame {
     private JPanel panelMain;
     private JPanel panelPerformance;
     private JButton buttonRadixSort;
-    private JButton buttonPerformanceTest3;
     private JButton buttonSaveChart;
 
     private ChartPanel chartPanel = null;
-    private JFileChooser fileChooserSave = null;
+    private JFileChooser fileChooserSave;
 
 
     public SortDemoFrame() {
@@ -90,28 +87,14 @@ public class SortDemoFrame extends JFrame {
             JTableUtils.writeArrayToJTable(tableArr, arr);
         });
 
-        buttonBubbleSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> BubbleSort.sort(arr));
-        });
-        buttonSelectionSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> SelectionSort.sort(arr));
-        });
-        buttonInsertionSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> InsertionSort.sort(arr));
-        });
-        buttonQuickSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> QuickSort.sort(arr));
-        });
-        buttonHeapSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> HeapSort.sort(arr));
-        });
-        buttonRadixSort.addActionListener(actionEvent -> {
-            sortDemo((arr) -> RadixSort.sort(arr, 10));
-        });
+        buttonBubbleSort.addActionListener(actionEvent -> sortDemo(BubbleSort::sort));
+        buttonSelectionSort.addActionListener(actionEvent -> sortDemo(SelectionSort::sort));
+        buttonInsertionSort.addActionListener(actionEvent -> sortDemo(InsertionSort::sort));
+        buttonQuickSort.addActionListener(actionEvent -> sortDemo(QuickSort::sort));
+        buttonHeapSort.addActionListener(actionEvent -> sortDemo(HeapSort::sort));
+        buttonRadixSort.addActionListener(actionEvent -> sortDemo((arr) -> RadixSort.sort(arr, 10)));
 
-        buttonWarmup.addActionListener(actionEvent -> {
-            warmupSorts();
-        });
+        buttonWarmup.addActionListener(actionEvent -> warmupSorts());
         buttonPerformanceTest1.addActionListener(actionEvent -> {
             String[] sortNames = {
                     "Встроенная (Arrays.sort)",
@@ -122,13 +105,14 @@ public class SortDemoFrame extends JFrame {
                     "Пирамидальная (HeapSort)",
                     "Поразрядная (RadixSort)"
             };
+            @SuppressWarnings("unchecked")
             Consumer<Integer[]>[] sorts = new Consumer[]{
-                    (Consumer<Integer[]>) (arr) -> Arrays.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> BubbleSort.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> SelectionSort.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> InsertionSort.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> QuickSort.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> HeapSort.sort(arr),
+                    (Consumer<Integer[]>) Arrays::sort,
+                    (Consumer<Integer[]>) BubbleSort::sort,
+                    (Consumer<Integer[]>) SelectionSort::sort,
+                    (Consumer<Integer[]>) InsertionSort::sort,
+                    (Consumer<Integer[]>) QuickSort::sort,
+                    (Consumer<Integer[]>) HeapSort::sort,
                     (Consumer<Integer[]>) (arr) -> RadixSort.sort(arr, 256)
             };
             int[] sizes = {
@@ -146,10 +130,11 @@ public class SortDemoFrame extends JFrame {
                     "Пирамиальная (HeapSort)",
                     "Поразрядная (RadixSort)"
             };
+            @SuppressWarnings("unchecked")
             Consumer<Integer[]>[] sorts = new Consumer[]{
-                    (Consumer<Integer[]>) (arr) -> Arrays.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> QuickSort.sort(arr),
-                    (Consumer<Integer[]>) (arr) -> HeapSort.sort(arr),
+                    (Consumer<Integer[]>) Arrays::sort,
+                    (Consumer<Integer[]>) QuickSort::sort,
+                    (Consumer<Integer[]>) HeapSort::sort,
                     (Consumer<Integer[]>) (arr) -> RadixSort.sort(arr, 256)
             };
             int[] sizes = {
@@ -159,23 +144,20 @@ public class SortDemoFrame extends JFrame {
             performanceTestDemo(sortNames, sorts, sizes);
         });
 
-        buttonSaveChart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (chartPanel == null) {
-                    return;
-                }
-                try {
-                    if (fileChooserSave.showSaveDialog(SortDemoFrame.this) == JFileChooser.APPROVE_OPTION) {
-                        String filename = fileChooserSave.getSelectedFile().getPath();
-                        if (!filename.toLowerCase().endsWith(".svg")) {
-                            filename += ".svg";
-                        }
-                        saveChartIntoFile(filename);
+        buttonSaveChart.addActionListener(actionEvent -> {
+            if (chartPanel == null) {
+                return;
+            }
+            try {
+                if (fileChooserSave.showSaveDialog(SortDemoFrame.this) == JFileChooser.APPROVE_OPTION) {
+                    String filename = fileChooserSave.getSelectedFile().getPath();
+                    if (!filename.toLowerCase().endsWith(".svg")) {
+                        filename += ".svg";
                     }
-                } catch (Exception e) {
-                    SwingUtils.showErrorMessageBox(e);
+                    saveChartIntoFile(filename);
                 }
+            } catch (Exception e) {
+                SwingUtils.showErrorMessageBox(e);
             }
         });
 
@@ -282,7 +264,7 @@ public class SortDemoFrame extends JFrame {
      * Сохранение диаграммы в файл
      *
      * @param filename Имя файла
-     * @throws Exception Возможное исключение
+     * @throws IOException Возможное исключение
      */
     private void saveChartIntoFile(String filename) throws IOException {
         JFreeChart chart = chartPanel.getChart();
@@ -346,6 +328,7 @@ public class SortDemoFrame extends JFrame {
             JTableUtils.writeArrayToJTable(tableArr, primiviteArr);
 
             // проверка правильности решения
+            assert primiviteArr != null;
             if (!checkSorted(primiviteArr)) {
                 // надеюсь, это невозможный сценарий
                 SwingUtils.showInfoMessageBox("Упс... А массив-то неправильно отсортирован!");
