@@ -143,7 +143,11 @@ public interface DefaultBinaryTree<T> extends Iterable<T> {
         default Iterable<T> inOrderValues() {
             return () -> {
                 Stack<TreeNode<T>> stack = new Stack<>();
-                stack.push(this);
+                TreeNode<T> node = this;
+                while (node != null) {
+                    stack.push(node);
+                    node = node.getLeft();
+                }
 
                 return new Iterator<T>() {
                     @Override
