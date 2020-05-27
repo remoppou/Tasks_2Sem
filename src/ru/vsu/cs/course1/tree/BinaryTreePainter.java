@@ -82,7 +82,7 @@ public class BinaryTreePainter {
     /**
      * Рисование дерева
      *
-     * @param <T>
+     * @param <T> Тип элементов в дереве
      * @param tree Дерево
      * @param gr   Graphics
      * @return Размеры картинки
@@ -101,7 +101,7 @@ public class BinaryTreePainter {
      * @param tree Двоичное дерево
      * @param filename Имя файла
      * @param backgroundTransparent Оставлять ли прозрачным фон
-     * @throws Exception Возможное исключение
+     * @throws IOException Возможное исключение
      */
     public static <T extends Comparable<T>> void saveIntoFile(DefaultBinaryTree<T> tree, String filename, boolean backgroundTransparent)
             throws IOException {
@@ -124,7 +124,7 @@ public class BinaryTreePainter {
      *
      * @param tree Двоичное дерево
      * @param filename Имя файла
-     * @throws Exception Возможное исключение
+     * @throws IOException Возможное исключение
      */
     public static <T extends Comparable<T>> void saveIntoFile(DefaultBinaryTree<T> tree, String filename)
             throws IOException {

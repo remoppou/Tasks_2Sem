@@ -49,7 +49,7 @@ public class BinaryTree<T> implements DefaultBinaryTree<T> {
     }
 
     public BinaryTree(Function<String, T> fromStrFunc) {
-        this(fromStrFunc, x -> x.toString());
+        this(fromStrFunc, Object::toString);
     }
 
     public BinaryTree() {
@@ -79,7 +79,7 @@ public class BinaryTree<T> implements DefaultBinaryTree<T> {
         return fromStrFunc.apply(s);
     }
 
-    private class IndexWrapper {
+    private static class IndexWrapper {
         public int index = 0;
     }
 
@@ -122,8 +122,7 @@ public class BinaryTree<T> implements DefaultBinaryTree<T> {
             iw.index++;
             skipSpaces(bracketStr, iw);
             if (bracketStr.charAt(iw.index) != ',') {
-                SimpleTreeNode leftNode = fromBracketStr(bracketStr, iw);
-                parentNode.left = leftNode;
+                parentNode.left = fromBracketStr(bracketStr, iw);
                 skipSpaces(bracketStr, iw);
             }
             if (bracketStr.charAt(iw.index) == ',') {
@@ -131,8 +130,7 @@ public class BinaryTree<T> implements DefaultBinaryTree<T> {
                 skipSpaces(bracketStr, iw);
             }
             if (bracketStr.charAt(iw.index) != ')') {
-                SimpleTreeNode rightNode = fromBracketStr(bracketStr, iw);
-                parentNode.right = rightNode;
+                parentNode.right = fromBracketStr(bracketStr, iw);
                 skipSpaces(bracketStr, iw);
             }
             if (bracketStr.charAt(iw.index) != ')') {

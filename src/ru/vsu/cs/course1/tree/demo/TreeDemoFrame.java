@@ -53,7 +53,7 @@ public class TreeDemoFrame extends JFrame {
 
     private JMenuBar menuBarMain;
     private JPanel paintPanel = null;
-    private JFileChooser fileChooserSave = null;
+    private JFileChooser fileChooserSave;
 
     DefaultBinaryTree<Integer> tree = new BinaryTree<>();
 
@@ -94,7 +94,7 @@ public class TreeDemoFrame extends JFrame {
 
         buttonMakeTree.addActionListener(actionEvent -> {
             try {
-                BinaryTree<Integer> tree = new BinaryTree<>(s -> Integer.parseInt(s));
+                BinaryTree<Integer> tree = new BinaryTree<>(Integer::parseInt);
                 tree.fromBracketNotation(textFieldBracketNotationTree.getText());
                 this.tree = tree;
                 repaintTree();
@@ -104,7 +104,7 @@ public class TreeDemoFrame extends JFrame {
         });
         buttonMakeBSTree.addActionListener(actionEvent -> {
             try {
-                SimpleBSTree<Integer> tree = new SimpleBSTree<>(s -> Integer.parseInt(s));
+                SimpleBSTree<Integer> tree = new SimpleBSTree<>(Integer::parseInt);
                 tree.fromBracketNotation(textFieldBracketNotationTree.getText());
                 this.tree = tree;
                 repaintTree();
@@ -313,7 +313,7 @@ public class TreeDemoFrame extends JFrame {
      *
      * @param tree Дерево
      */
-    private void makeBSTFromValues(DefaultBSTree tree) {
+    private void makeBSTFromValues(DefaultBSTree<Integer> tree) {
         int[] values = ArrayUtils.toIntArray(textFieldValues.getText());
         tree.clear();
         for (int v : values) {

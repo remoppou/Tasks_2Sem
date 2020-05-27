@@ -93,7 +93,7 @@ public class AVLTree<T extends Comparable<? super T>> implements DefaultBSTree<T
     private AVLTreeNode remove(AVLTreeNode node, T value)
     {
         if (node == null) {
-            return node;
+            return null;
         }
         int cmp = value.compareTo(node.value);
         if (cmp == 0) {
@@ -115,7 +115,7 @@ public class AVLTree<T extends Comparable<? super T>> implements DefaultBSTree<T
 
     private AVLTreeNode balance(AVLTreeNode node) {
         if (node == null) {
-            return node;
+            return null;
         }
         if (node.getHeightDiff() < -1) {
             // высота правого поддерева для node больше левого более, чем на 1 (на 2)
