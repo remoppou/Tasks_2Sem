@@ -48,6 +48,7 @@ public class SortDemoFrame extends JFrame {
     private JPanel panelPerformance;
     private JButton buttonRadixSort;
     private JButton buttonSaveChart;
+    private JCheckBox checkBoxPartiallyOrdered;
 
     private ChartPanel chartPanel = null;
     private JFileChooser fileChooserSave;
@@ -121,7 +122,7 @@ public class SortDemoFrame extends JFrame {
                     11000, 12000, 13000, 14000, 15000,
                     16000, 17000, 18000, 19000, 20000
             };
-            performanceTestDemo(sortNames, sorts, sizes);
+            performanceTestDemo(sortNames, sorts, sizes, checkBoxPartiallyOrdered.isSelected());
         });
         buttonPerformanceTest2.addActionListener(actionEvent -> {
             String[] sortNames = {
@@ -141,7 +142,7 @@ public class SortDemoFrame extends JFrame {
                     100000, 200000, 300000, 400000, 500000,
                     600000, 700000, 800000, 900000, 1000000
             };
-            performanceTestDemo(sortNames, sorts, sizes);
+            performanceTestDemo(sortNames, sorts, sizes, checkBoxPartiallyOrdered.isSelected());
         });
 
         buttonSaveChart.addActionListener(actionEvent -> {
@@ -210,18 +211,25 @@ public class SortDemoFrame extends JFrame {
      * @param sizes Размеры массивов, для которых надо провести тестирование
      * @return Время в мс для раличных сортировок для указанных размеров массивов
      */
-    private static double[][] performanceTest(Consumer<Integer[]>[] sorts, int[] sizes) {
+    private static double[][] performanceTest(Consumer<Integer[]>[] sorts, int[] sizes, boolean partiallyOrdered) {
         Random rnd = new Random();
         double[][] result = new double[sorts.length][sizes.length];
 
         // надо, по правилам, многократно тестировать, но и так сойдет
         for (int i = 0; i < sizes.length; i++) {
             Integer[] arr1 = new Integer[sizes[i]];
-            Integer[] arr2 = new Integer[sizes[i]];
             for (int j = 0; j < arr1.length; j++) {
                 arr1[j] = rnd.nextInt((int) 1E6);
             }
 
+            if (partiallyOrdered) {
+                Arrays.sort(arr1);
+                for (int j = 0; j < arr1.length / 10; j++) {
+                    arr1[rnd.nextInt(arr1.length)] = rnd.nextInt((int) 1E6);
+                }
+            }
+
+            Integer[] arr2 = new Integer[sizes[i]];
             for (int j = 0; j < sorts.length; j++) {
                 long moment1, moment2;
                 System.arraycopy(arr1, 0, arr2, 0, arr1.length);
@@ -281,8 +289,8 @@ public class SortDemoFrame extends JFrame {
      * @param sorts     Список сортировок в виде массива Consumer
      * @param sizes     Размеры массивов, для которых надо провести тестирование
      */
-    private void performanceTestDemo(String[] sortNames, Consumer<Integer[]>[] sorts, int[] sizes) {
-        double[][] result = performanceTest(sorts, sizes);
+    private void performanceTestDemo(String[] sortNames, Consumer<Integer[]>[] sorts, int[] sizes, boolean partiallyOrdered) {
+        double[][] result = performanceTest(sorts, sizes, partiallyOrdered);
 
         DefaultXYDataset ds = new DefaultXYDataset();
         double[][] data = new double[2][result.length];
@@ -391,22 +399,25 @@ public class SortDemoFrame extends JFrame {
         buttonRadixSort.setText("Поразрядная сортировка (RadixSort)");
         panel2.add(buttonRadixSort, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         panelMain.add(panel3, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         buttonWarmup = new JButton();
         buttonWarmup.setText("Разогрев");
         panel3.add(buttonWarmup, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         buttonPerformanceTest1 = new JButton();
         buttonPerformanceTest1.setText("Тест производительности 1");
-        panel3.add(buttonPerformanceTest1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel3.add(buttonPerformanceTest1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
-        panel3.add(spacer2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        buttonPerformanceTest2 = new JButton();
-        buttonPerformanceTest2.setText("Тест производительности 2");
-        panel3.add(buttonPerformanceTest2, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel3.add(spacer2, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         buttonSaveChart = new JButton();
         buttonSaveChart.setText("Сохранить график в SVG");
-        panel3.add(buttonSaveChart, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel3.add(buttonSaveChart, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonPerformanceTest2 = new JButton();
+        buttonPerformanceTest2.setText("Тест производительности 2");
+        panel3.add(buttonPerformanceTest2, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        checkBoxPartiallyOrdered = new JCheckBox();
+        checkBoxPartiallyOrdered.setText("частичная упорядоченность (>=90%)");
+        panel3.add(checkBoxPartiallyOrdered, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_EAST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         panelPerformance = new JPanel();
         panelPerformance.setLayout(new BorderLayout(0, 0));
         panelMain.add(panelPerformance, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(-1, 300), null, 0, false));
