@@ -1,8 +1,9 @@
 package ru.vsu.cs.course1.tree.bst.rb;
 
 import java.awt.Color;
-import ru.vsu.cs.course1.tree.DefaultBinaryTree;
-import ru.vsu.cs.course1.tree.bst.DefaultBSTree;
+import ru.vsu.cs.course1.tree.BinaryTree;
+import ru.vsu.cs.course1.tree.bst.BSTree;
+import ru.vsu.cs.course1.tree.bst.BSTreeAlgorithms;
 
 /**
  * Рализация красно-черного дерева:
@@ -11,14 +12,14 @@ import ru.vsu.cs.course1.tree.bst.DefaultBSTree;
  *
  * @param <T>
  */
-public class RBTree<T extends Comparable<? super T>> implements DefaultBSTree<T> {
+public class RBTree<T extends Comparable<? super T>> implements BSTree<T> {
 
     static final boolean RED   = true;
     static final boolean BLACK = false;
 
     // не указываем модификаторы доступа, чтобы был доступ из того же пакета
     // (в частности из RBTreeMap)
-    class RBTreeNode implements DefaultBinaryTree.TreeNode<T> {
+    class RBTreeNode implements BinaryTree.TreeNode<T> {
 
         public T value;
         public boolean color;
@@ -50,12 +51,12 @@ public class RBTree<T extends Comparable<? super T>> implements DefaultBSTree<T>
         }
 
         @Override
-        public DefaultBinaryTree.TreeNode<T> getLeft() {
+        public BinaryTree.TreeNode<T> getLeft() {
             return left;
         }
 
         @Override
-        public DefaultBinaryTree.TreeNode<T> getRight() {
+        public BinaryTree.TreeNode<T> getRight() {
             return right;
         }
 
@@ -71,7 +72,7 @@ public class RBTree<T extends Comparable<? super T>> implements DefaultBSTree<T>
     // Ниже идет реализация интерфейса BSTree<T> (@Override-методы)
 
     @Override
-    public DefaultBinaryTree.TreeNode<T> getRoot() {
+    public BinaryTree.TreeNode<T> getRoot() {
         return root;
     }
 
@@ -117,14 +118,14 @@ public class RBTree<T extends Comparable<? super T>> implements DefaultBSTree<T>
 
     @Override
     public T remove(T value) {
-        RBTreeNode node = (RBTreeNode) getNode(root, value);
+        RBTreeNode node = (RBTreeNode) getNode(value);
         if (node == null) {
             // в дереве нет такого значения
             return null;
         }
         T oldValue = node.value;
         if (node.left != null && node.right!= null) {
-            RBTreeNode nextValueNode = (RBTreeNode) getMinNode(node.right);
+            RBTreeNode nextValueNode = (RBTreeNode) BSTreeAlgorithms.getMinNode(node.right);
             node.value = nextValueNode.value;
             node = nextValueNode;
         }

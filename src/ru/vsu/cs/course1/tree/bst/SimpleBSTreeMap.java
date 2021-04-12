@@ -6,12 +6,12 @@ package ru.vsu.cs.course1.tree.bst;
  * @param <K>
  * @param <V>
  */
-public class SimpleBSTreeMap<K extends Comparable<K>, V> implements DefaultBSTreeMap<K, V> {
+public class SimpleBSTreeMap<K extends Comparable<K>, V> implements BSTreeMap<K, V> {
 
-    private final DefaultBSTree<DefaultBSTreeMap.MapTreeEntry<K, V>> tree = new SimpleBSTree<>();
+    private final BSTree<MapTreeEntry<K, V>> tree = new SimpleBSTree<>();
 
     @Override
-    public DefaultBSTree<DefaultBSTreeMap.MapTreeEntry<K, V>> getTree() {
+    public BSTree<MapTreeEntry<K, V>> getTree() {
         return tree;
     }
 }

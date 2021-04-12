@@ -1,14 +1,14 @@
 package ru.vsu.cs.course1.tree.bst;
 
 import java.util.function.Function;
+import ru.vsu.cs.course1.tree.SimpleBinaryTree;
 import ru.vsu.cs.course1.tree.BinaryTree;
-import ru.vsu.cs.course1.tree.DefaultBinaryTree;
 
 /**
  * Класс, реализующий простое (наивное) дерево поиска
  * @param <T>
  */
-public class SimpleBSTree<T extends Comparable<? super T>> extends BinaryTree<T> implements DefaultBSTree<T> {
+public class SimpleBSTree<T extends Comparable<? super T>> extends SimpleBinaryTree<T> implements BSTree<T> {
 
     private static class CheckBSTResult<T> {
         public boolean result;
@@ -38,7 +38,7 @@ public class SimpleBSTree<T extends Comparable<? super T>> extends BinaryTree<T>
         super();
     }
 
-    private static <T extends Comparable<? super T>> CheckBSTResult<T> isBSTInner(DefaultBinaryTree.TreeNode<T> node) {
+    private static <T extends Comparable<? super T>> CheckBSTResult<T> isBSTInner(BinaryTree.TreeNode<T> node) {
         if (node == null) {
             return null;
         }
@@ -67,7 +67,7 @@ public class SimpleBSTree<T extends Comparable<? super T>> extends BinaryTree<T>
      * @param node Поддерево
      * @return treu/false
      */
-    public static <T extends Comparable<? super T>> boolean isBST(DefaultBinaryTree.TreeNode<T> node) {
+    public static <T extends Comparable<? super T>> boolean isBST(BinaryTree.TreeNode<T> node) {
         return node == null ? true : isBSTInner(node).result;
     }
 
@@ -78,7 +78,7 @@ public class SimpleBSTree<T extends Comparable<? super T>> extends BinaryTree<T>
      */
     @Override
     public void fromBracketNotation(String bracketStr) throws Exception {
-        BinaryTree tempTree = new BinaryTree(this.fromStrFunc);
+        SimpleBinaryTree tempTree = new SimpleBinaryTree(this.fromStrFunc);
         tempTree.fromBracketNotation(bracketStr);
         CheckBSTResult<T> tempTreeResult = isBSTInner(tempTree.getRoot());
         if (!tempTreeResult.result) {

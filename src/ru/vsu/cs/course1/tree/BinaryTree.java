@@ -1,153 +1,95 @@
 package ru.vsu.cs.course1.tree;
 
-import java.util.function.Function;
+import java.awt.Color;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
- * Реализация простейшего бинарного дерева
+ * Интерфейс для двоичного дерева с реализацияей по умолчанию различных обходов
+ * дерева
+ *
+ * @param <T>
  */
-public class BinaryTree<T> implements DefaultBinaryTree<T> {
+public interface BinaryTree<T> extends Iterable<T> {
 
-    protected class SimpleTreeNode implements DefaultBinaryTree.TreeNode<T> {
-        public T value;
-        public SimpleTreeNode left;
-        public SimpleTreeNode right;
+    /**
+     * Интерфейс для описания узла двоичного дерева
+     *
+     * @param <T>
+     */
+    interface TreeNode<T> extends Iterable<T> {
 
-        public SimpleTreeNode(T value, SimpleTreeNode left, SimpleTreeNode right) {
-            this.value = value;
-            this.left = left;
-            this.right = right;
-        }
+        /**
+         * @return Значение в узле дерева
+         */
+        T getValue();
 
-        public SimpleTreeNode(T value) {
-            this(value, null, null);
-        }
-
-        @Override
-        public T getValue() {
-            return value;
-        }
-
-        @Override
-        public TreeNode<T> getLeft() {
-            return left;
-        }
-
-        @Override
-        public TreeNode<T> getRight() {
-            return right;
-        }
-    }
-
-    protected SimpleTreeNode root = null;
-
-    protected Function<String, T> fromStrFunc;
-    protected Function<T, String> toStrFunc;
-
-    public BinaryTree(Function<String, T> fromStrFunc, Function<T, String> toStrFunc) {
-        this.fromStrFunc = fromStrFunc;
-        this.toStrFunc = toStrFunc;
-    }
-
-    public BinaryTree(Function<String, T> fromStrFunc) {
-        this(fromStrFunc, Object::toString);
-    }
-
-    public BinaryTree() {
-        this(null);
-    }
-
-    @Override
-    public TreeNode<T> getRoot() {
-        return root;
-    }
-
-    public void clear() {
-        root = null;
-    }
-
-    private T fromStr(String s) throws Exception {
-        s = s.trim();
-        if (s.length() > 0 && s.charAt(0) == '"') {
-            s = s.substring(1);
-        }
-        if (s.length() > 0 && s.charAt(s.length() - 1) == '"') {
-            s = s.substring(0, s.length() - 1);
-        }
-        if (fromStrFunc == null) {
-            throw new Exception("Не определена функция конвертации строки в T");
-        }
-        return fromStrFunc.apply(s);
-    }
-
-    private static class IndexWrapper {
-        public int index = 0;
-    }
-
-    private void skipSpaces(String bracketStr, IndexWrapper iw) {
-        while (iw.index < bracketStr.length() && Character.isWhitespace(bracketStr.charAt(iw.index))) {
-            iw.index++;
-        }
-    }
-
-    private T readValue(String bracketStr, IndexWrapper iw) throws Exception {
-        // пропуcкаем возможные пробелы
-        skipSpaces(bracketStr, iw);
-        if (iw.index >= bracketStr.length()) {
+        /**
+         * @return Левое поддерево
+         */
+        default TreeNode<T> getLeft() {
             return null;
         }
-        int from = iw.index;
-        boolean quote = bracketStr.charAt(iw.index) == '"';
-        if (quote) {
-            iw.index++;
+
+        /**
+         * @return Правое поддерево
+         */
+        default TreeNode<T> getRight() {
+            return null;
         }
-        while (iw.index < bracketStr.length() && (
-                    quote && bracketStr.charAt(iw.index) != '"' ||
-                    !quote && !Character.isWhitespace(bracketStr.charAt(iw.index)) && "(),".indexOf(bracketStr.charAt(iw.index)) < 0
-               )) {
-            iw.index++;
+
+        /**
+         * @return Цвет узла (для рисования и не только)
+         */
+        default Color getColor() {
+            return Color.BLACK;
         }
-        if (quote && bracketStr.charAt(iw.index) == '"') {
-            iw.index++;
+
+        /**
+         * Реализация Iterable&lt;T&gt;
+         *
+         * @return Итератор
+         */
+        @Override
+        default Iterator<T> iterator() {
+            return BinaryTreeAlgorithms.inOrderValues(this).iterator();
         }
-        String valueStr = bracketStr.substring(from, iw.index);
-        T value = fromStr(valueStr);
-        skipSpaces(bracketStr, iw);
-        return value;
+
+        /**
+         * Представление поддерева в виде строки в скобочной нотации
+         *
+         * @return дерево в виде строки
+         */
+        default String toBracketStr() {
+            return BinaryTreeAlgorithms.toBracketStr(this);
+        }
     }
 
-    private SimpleTreeNode fromBracketStr(String bracketStr, IndexWrapper iw) throws Exception {
-        T parentValue = readValue(bracketStr, iw);
-        SimpleTreeNode parentNode = new SimpleTreeNode(parentValue);
-        if (bracketStr.charAt(iw.index) == '(') {
-            iw.index++;
-            skipSpaces(bracketStr, iw);
-            if (bracketStr.charAt(iw.index) != ',') {
-                parentNode.left = fromBracketStr(bracketStr, iw);
-                skipSpaces(bracketStr, iw);
-            }
-            if (bracketStr.charAt(iw.index) == ',') {
-                iw.index++;
-                skipSpaces(bracketStr, iw);
-            }
-            if (bracketStr.charAt(iw.index) != ')') {
-                parentNode.right = fromBracketStr(bracketStr, iw);
-                skipSpaces(bracketStr, iw);
-            }
-            if (bracketStr.charAt(iw.index) != ')') {
-                throw new Exception(String.format("Ожидалось ')' [%d]", iw.index));
-            }
-            iw.index++;
-        }
+    /**
+     * @return Корень (вершина) дерева
+     */
+    TreeNode<T> getRoot();
 
-        return parentNode;
+
+    /**
+     * Реализация Iterable&lt;T&gt;
+     *
+     * @return Итератор
+     */
+    @Override
+    default Iterator<T> iterator() {
+        return this.getRoot().iterator();
     }
 
-    public void fromBracketNotation(String bracketStr) throws Exception {
-        IndexWrapper iw = new IndexWrapper();
-        SimpleTreeNode root = fromBracketStr(bracketStr, iw);
-        if (iw.index < bracketStr.length()) {
-            throw new Exception(String.format("Ожидался конец строки [%d]", iw.index));
-        }
-        this.root = root;
+
+    /**
+     * Представление дерева в виде строки в скобочной нотации
+     *
+     * @return дерево в виде строки
+     */
+    default String toBracketStr() {
+        return this.getRoot().toBracketStr();
     }
 }

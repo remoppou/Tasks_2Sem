@@ -1,11 +1,6 @@
 package ru.vsu.cs.course1.tree;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -38,7 +33,7 @@ public class BinaryTreePainter {
         }
     }
 
-    private static <T extends Comparable<T>> NodeDrawResult paint(DefaultBinaryTree.TreeNode<T> node, Graphics2D g2d,
+    private static <T extends Comparable<T>> NodeDrawResult paint(BinaryTree.TreeNode<T> node, Graphics2D g2d,
                                                                   int x, int y) {
         if (node == null) {
             return null;
@@ -87,12 +82,12 @@ public class BinaryTreePainter {
      * @param gr   Graphics
      * @return Размеры картинки
      */
-    public static <T extends Comparable<T>> Point paint(DefaultBinaryTree<T> tree, Graphics gr) {
+    public static <T extends Comparable<T>> Dimension paint(BinaryTree<T> tree, Graphics gr) {
         Graphics2D g2d = (Graphics2D) gr;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         NodeDrawResult rootResult = paint(tree.getRoot(), g2d, HORIZONTAL_INDENT, HORIZONTAL_INDENT);
-        return new Point((rootResult == null) ? 0 : rootResult.maxX, (rootResult == null) ? 0 : rootResult.maxY + HORIZONTAL_INDENT);
+        return new Dimension((rootResult == null) ? 0 : rootResult.maxX, (rootResult == null) ? 0 : rootResult.maxY + HORIZONTAL_INDENT);
     }
 
     /**
@@ -103,16 +98,16 @@ public class BinaryTreePainter {
      * @param backgroundTransparent Оставлять ли прозрачным фон
      * @throws IOException Возможное исключение
      */
-    public static <T extends Comparable<T>> void saveIntoFile(DefaultBinaryTree<T> tree, String filename, boolean backgroundTransparent)
+    public static <T extends Comparable<T>> void saveIntoFile(BinaryTree<T> tree, String filename, boolean backgroundTransparent)
             throws IOException {
         // первый раз рисуем, только чтобы размеры изображения определить
         SVGGraphics2D g2 = new SVGGraphics2D(1, 1);
-        Point size = BinaryTreePainter.paint(tree, g2);
+        Dimension size = BinaryTreePainter.paint(tree, g2);
         // второй раз рисуем непосредственно для сохранения
-        g2 = new SVGGraphics2D((int) size.getX(), (int) size.getY());
+        g2 = new SVGGraphics2D(size.width, size.height);
         if (!backgroundTransparent) {
             g2.setColor(Color.WHITE);
-            g2.fillRect(0, 0, (int) size.getX(), (int) size.getY());
+            g2.fillRect(0, 0, size.width, size.height);
         }
         BinaryTreePainter.paint(tree, g2);
 
@@ -126,7 +121,7 @@ public class BinaryTreePainter {
      * @param filename Имя файла
      * @throws IOException Возможное исключение
      */
-    public static <T extends Comparable<T>> void saveIntoFile(DefaultBinaryTree<T> tree, String filename)
+    public static <T extends Comparable<T>> void saveIntoFile(BinaryTree<T> tree, String filename)
             throws IOException {
         saveIntoFile(tree, filename, false);
     }

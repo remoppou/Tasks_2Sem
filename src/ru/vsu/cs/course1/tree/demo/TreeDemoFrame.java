@@ -3,10 +3,11 @@ package ru.vsu.cs.course1.tree.demo;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import ru.vsu.cs.course1.tree.BinaryTree;
+import ru.vsu.cs.course1.tree.BinaryTreeAlgorithms;
+import ru.vsu.cs.course1.tree.SimpleBinaryTree;
 import ru.vsu.cs.course1.tree.BinaryTreePainter;
-import ru.vsu.cs.course1.tree.DefaultBinaryTree;
-import ru.vsu.cs.course1.tree.bst.DefaultBSTree;
+import ru.vsu.cs.course1.tree.BinaryTree;
+import ru.vsu.cs.course1.tree.bst.BSTree;
 import ru.vsu.cs.course1.tree.bst.SimpleBSTree;
 import ru.vsu.cs.course1.tree.bst.SimpleBSTreeMap;
 import ru.vsu.cs.course1.tree.bst.avl.AVLTree;
@@ -23,6 +24,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 public class TreeDemoFrame extends JFrame {
     private JPanel panelMain;
@@ -55,7 +57,7 @@ public class TreeDemoFrame extends JFrame {
     private JPanel paintPanel = null;
     private JFileChooser fileChooserSave;
 
-    DefaultBinaryTree<Integer> tree = new BinaryTree<>();
+    BinaryTree<Integer> tree = new SimpleBinaryTree<>();
 
 
     public TreeDemoFrame() {
@@ -71,11 +73,15 @@ public class TreeDemoFrame extends JFrame {
         splitPaneMain.setBorder(null);
 
         paintPanel = new JPanel() {
+            private Dimension paintSize = new Dimension(0, 0);
+
             @Override
             public void paintComponent(Graphics gr) {
                 super.paintComponent(gr);
-                Point size = BinaryTreePainter.paint(tree, gr);
-                SwingUtils.setFixedSize(paintPanel, size.x, size.y);
+                paintSize = BinaryTreePainter.paint(tree, gr);
+                if (!paintSize.equals(this.getPreferredSize())) {
+                    SwingUtils.setFixedSize(this, paintSize.width, paintSize.height);
+                }
             }
         };
         JScrollPane paintJScrollPane = new JScrollPane(paintPanel);
@@ -94,7 +100,7 @@ public class TreeDemoFrame extends JFrame {
 
         buttonMakeTree.addActionListener(actionEvent -> {
             try {
-                BinaryTree<Integer> tree = new BinaryTree<>(Integer::parseInt);
+                SimpleBinaryTree<Integer> tree = new SimpleBinaryTree<>(Integer::parseInt);
                 tree.fromBracketNotation(textFieldBracketNotationTree.getText());
                 this.tree = tree;
                 repaintTree();
@@ -151,26 +157,26 @@ public class TreeDemoFrame extends JFrame {
         });
 
         buttonAddValue.addActionListener(actionEvent -> {
-            if (!(tree instanceof DefaultBSTree)) {
+            if (!(tree instanceof BSTree)) {
                 SwingUtils.showInfoMessageBox("Текущее дерево не является деревом поиска!");
                 return;
             }
             try {
                 int value = Integer.parseInt(spinnerSingleValue.getValue().toString());
-                ((DefaultBSTree<Integer>) tree).put(value);
+                ((BSTree<Integer>) tree).put(value);
                 repaintTree();
             } catch (Exception ex) {
                 SwingUtils.showErrorMessageBox(ex);
             }
         });
         buttonRemoveValue.addActionListener(actionEvent -> {
-            if (!(tree instanceof DefaultBSTree)) {
+            if (!(tree instanceof BSTree)) {
                 SwingUtils.showInfoMessageBox("Текущее дерево не является деревом поиска!");
                 return;
             }
             try {
                 int value = Integer.parseInt(spinnerSingleValue.getValue().toString());
-                ((DefaultBSTree<Integer>) tree).remove(value);
+                ((BSTree<Integer>) tree).remove(value);
                 repaintTree();
             } catch (Exception ex) {
                 SwingUtils.showErrorMessageBox(ex);
@@ -204,12 +210,12 @@ public class TreeDemoFrame extends JFrame {
         buttonPreOrderTraverse.addActionListener(actionEvent -> {
             showSystemOut(() -> {
                 System.out.println("Посетитель:");
-                tree.preOrderVisit((value, level) -> {
+                BinaryTreeAlgorithms.preOrderVisit(tree.getRoot(), (value, level) -> {
                     System.out.println(value + " (уровень " + level + ")");
                 });
                 System.out.println();
                 System.out.println("Итератор:");
-                for (Integer i : tree.preOrderValues()) {
+                for (Integer i : BinaryTreeAlgorithms.preOrderValues(tree.getRoot())) {
                     System.out.println(i);
                 }
             });
@@ -217,12 +223,12 @@ public class TreeDemoFrame extends JFrame {
         buttonInOrderTraverse.addActionListener(actionEvent -> {
             showSystemOut(() -> {
                 System.out.println("Посетитель:");
-                tree.inOrderVisit((value, level) -> {
+                BinaryTreeAlgorithms.inOrderVisit(tree.getRoot(), (value, level) -> {
                     System.out.println(value + " (уровень " + level + ")");
                 });
                 System.out.println();
                 System.out.println("Итератор:");
-                for (Integer i : tree.inOrderValues()) {
+                for (Integer i : BinaryTreeAlgorithms.inOrderValues(tree.getRoot())) {
                     System.out.println(i);
                 }
             });
@@ -230,12 +236,12 @@ public class TreeDemoFrame extends JFrame {
         buttonPostOrderTraverse.addActionListener(actionEvent -> {
             showSystemOut(() -> {
                 System.out.println("Посетитель:");
-                tree.postOrderVisit((value, level) -> {
+                BinaryTreeAlgorithms.postOrderVisit(tree.getRoot(), (value, level) -> {
                     System.out.println(value + " (уровень " + level + ")");
                 });
                 System.out.println();
                 System.out.println("Итератор:");
-                for (Integer i : tree.postOrderValues()) {
+                for (Integer i : BinaryTreeAlgorithms.postOrderValues(tree.getRoot())) {
                     System.out.println(i);
                 }
             });
@@ -243,12 +249,12 @@ public class TreeDemoFrame extends JFrame {
         buttonByLevelTraverse.addActionListener(actionEvent -> {
             showSystemOut(() -> {
                 System.out.println("Посетитель:");
-                tree.byLevelVisit((value, level) -> {
+                BinaryTreeAlgorithms.byLevelVisit(tree.getRoot(), (value, level) -> {
                     System.out.println(value + " (уровень " + level + ")");
                 });
                 System.out.println();
                 System.out.println("Итератор:");
-                for (Integer i : tree.byLevelValues()) {
+                for (Integer i : BinaryTreeAlgorithms.byLevelValues(tree.getRoot())) {
                     System.out.println(i);
                 }
             });
@@ -285,7 +291,9 @@ public class TreeDemoFrame extends JFrame {
      * Перерисовка дерева
      */
     public void repaintTree() {
+        //panelPaintArea.repaint();
         paintPanel.repaint();
+        //panelPaintArea.revalidate();
     }
 
     /**
@@ -313,7 +321,7 @@ public class TreeDemoFrame extends JFrame {
      *
      * @param tree Дерево
      */
-    private void makeBSTFromValues(DefaultBSTree<Integer> tree) {
+    private void makeBSTFromValues(BSTree<Integer> tree) {
         int[] values = ArrayUtils.toIntArray(textFieldValues.getText());
         tree.clear();
         for (int v : values) {

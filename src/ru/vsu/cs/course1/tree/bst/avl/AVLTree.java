@@ -1,7 +1,8 @@
 package ru.vsu.cs.course1.tree.bst.avl;
 
-import ru.vsu.cs.course1.tree.DefaultBinaryTree;
-import ru.vsu.cs.course1.tree.bst.DefaultBSTree;
+import ru.vsu.cs.course1.tree.BinaryTree;
+import ru.vsu.cs.course1.tree.bst.BSTree;
+import ru.vsu.cs.course1.tree.bst.BSTreeAlgorithms;
 
 /**
  * Рализация AVL-дерева:
@@ -9,11 +10,11 @@ import ru.vsu.cs.course1.tree.bst.DefaultBSTree;
  *
  * @param <T>
  */
-public class AVLTree<T extends Comparable<? super T>> implements DefaultBSTree<T> {
+public class AVLTree<T extends Comparable<? super T>> implements BSTree<T> {
 
     // не указываем модификаторы доступа, чтобы был доступ из того же пакета
     // (в частности из AVLTreeNode и AVLTreePainter)
-    class AVLTreeNode implements DefaultBinaryTree.TreeNode<T> {
+    class AVLTreeNode implements BinaryTree.TreeNode<T> {
 
         public T value;
         public AVLTreeNode left;
@@ -47,12 +48,12 @@ public class AVLTree<T extends Comparable<? super T>> implements DefaultBSTree<T
         }
 
         @Override
-        public DefaultBinaryTree.TreeNode<T> getLeft() {
+        public BinaryTree.TreeNode<T> getLeft() {
             return left;
         }
 
         @Override
-        public DefaultBinaryTree.TreeNode<T> getRight() {
+        public BinaryTree.TreeNode<T> getRight() {
             return right;
         }
     }
@@ -99,7 +100,7 @@ public class AVLTree<T extends Comparable<? super T>> implements DefaultBSTree<T
         if (cmp == 0) {
             // в узле значение, равное value
             if (node.left != null && node.right != null) {
-                node.value = getMinNode(node.right).getValue();
+                node.value = BSTreeAlgorithms.getMinNode(node.right).getValue();
                 node.right = remove(node.right, node.value);
             } else {
                 node = (node.left != null) ? node.left : node.right;

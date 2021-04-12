@@ -15,7 +15,7 @@ import ru.vsu.cs.util.dummy.DefaultNotSupportedSortedMap;
  * @param <K>
  * @param <V>
  */
-public interface DefaultBSTreeMap<K extends Comparable<? super K>, V> extends DefaultNotSupportedSortedMap<K, V> {
+public interface BSTreeMap<K extends Comparable<? super K>, V> extends DefaultNotSupportedSortedMap<K, V> {
 
     class MapTreeEntry<K extends Comparable<? super K>, V> implements Map.Entry<K, V>, Comparable<MapTreeEntry<K, V>> {
 
@@ -55,7 +55,7 @@ public interface DefaultBSTreeMap<K extends Comparable<? super K>, V> extends De
         }
     }
 
-    DefaultBSTree<MapTreeEntry<K, V>> getTree();
+    BSTree<MapTreeEntry<K, V>> getTree();
 
     @Override
     default int size() {
@@ -119,7 +119,7 @@ public interface DefaultBSTreeMap<K extends Comparable<? super K>, V> extends De
 
             @Override
             public int size() {
-                return DefaultBSTreeMap.this.size();
+                return BSTreeMap.this.size();
             }
 
             @Override
@@ -149,7 +149,7 @@ public interface DefaultBSTreeMap<K extends Comparable<? super K>, V> extends De
 
             @Override
             public int size() {
-                return DefaultBSTreeMap.this.size();
+                return BSTreeMap.this.size();
             }
 
             @Override
@@ -177,7 +177,7 @@ public interface DefaultBSTreeMap<K extends Comparable<? super K>, V> extends De
         return new DefaultNotSupportedSet<Entry<K, V>>() {
             @Override
             public int size() {
-                return DefaultBSTreeMap.this.size();
+                return BSTreeMap.this.size();
             }
 
             @Override
