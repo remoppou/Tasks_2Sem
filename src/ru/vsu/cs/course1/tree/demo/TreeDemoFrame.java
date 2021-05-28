@@ -213,6 +213,16 @@ public class TreeDemoFrame extends JFrame {
                 BinaryTreeAlgorithms.preOrderVisit(tree.getRoot(), (value, level) -> {
                     System.out.println(value + " (уровень " + level + ")");
                 });
+                /*
+                // эквивалентная запись без лямбда-выражений
+                class InnerVisitor implements BinaryTreeAlgorithms.Visitor<Integer> {
+                    @Override
+                    public void visit(Integer value, int level) {
+                        System.out.println(value + " (уровень " + level + ")");
+                    }
+                }
+                BinaryTreeAlgorithms.preOrderVisit(tree.getRoot(), new InnerVisitor());
+                */
                 System.out.println();
                 System.out.println("Итератор:");
                 for (Integer i : BinaryTreeAlgorithms.preOrderValues(tree.getRoot())) {
