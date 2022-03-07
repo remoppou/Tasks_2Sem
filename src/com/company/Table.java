@@ -36,11 +36,13 @@ public class Table {
     }
 
     public int numColumn() {
-        // инициализировать класс и взять оттуда колонки!!!!!!!!
-        return ;
+        Name name = new Name();
+        return name.getCountCol();
     }
 
     public void countColPlus(String nameOfNewCol) {
+        Name name = new Name();
+        name.setNames(nameOfNewCol);
         countCol++;
     }
 
@@ -70,6 +72,7 @@ public class Table {
         for (int i = 0; i < listOfRows.size(); i++) {
             listOfRows.get(i).remove(indexCol);
         }
+        Name name = new Name();!!!!!!!!!!!!!!!!!!!!!
         countCol--;
     }
 
