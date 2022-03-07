@@ -10,6 +10,10 @@ public class Table {
     public int countCol;
     private int calk;
 
+    class Name {
+
+    }
+
     public Table() {
         listOfRows = new ArrayList<>();
         row = new ArrayList<>();
@@ -24,6 +28,17 @@ public class Table {
     public int numColumn() {
         return countCol;
     }
+
+    public void countColPlus() {
+        countCol++;
+    }
+
+
+
+//    public void cell(String a, int indexRow, String indexCol) {
+//        int indexC = name(indexCol); //Реализовать имена колонок
+//        listOfRows.get(indexRow).add(indexC, a);
+//    }
 
     public void addInRow(String a) {
         if (calk > 0) {
