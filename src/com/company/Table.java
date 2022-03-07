@@ -8,6 +8,7 @@ public class Table {
     public List<String> row;
     public int countRow;
     public int countCol;
+    private int calk;
 
     public Table() {
         listOfRows = new ArrayList<>();
@@ -25,9 +26,19 @@ public class Table {
     }
 
     public void addInRow(String a) {
-        row.add(a);
-        countCol++;
+        if (calk > 0) {
+            while (row.size() < countCol) {
+                row.add(a);
+            }
+            System.out.println("Строка заполнена!!!");
+            addInListOfRows(row);
+        } else {
+            row.add(a);
+            countCol++;
+            calk++;
+        }
     }
+
 
     public void removeCol(int indexCol){
         if (indexCol < 0 || indexCol >= countCol)
