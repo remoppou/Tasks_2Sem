@@ -4,37 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
-    public List<List<Row>> listOfRows;
-    public List<Row> row;
-    public int count;
+    public List<List<String>> listOfRows;
+    public List<String> row;
+    public int countRow;
+    public int countCol;
 
     public Table() {
         listOfRows = new ArrayList<>();
-        count = 0;
+        row = new ArrayList<>();
+        countRow = 0;
     }
 
-    public void add(List<Row> row) {
+    public int sizeOfRows() {
+        return countRow;
+    }
+
+    public int numColumn() {
+        return countCol;
+    }
+
+    public void addInListOfRows(List<String> row) {
         listOfRows.add(row);
-        count++;
+        countRow++;
     }
 
-    public Object getList(int index) {
-        if (index < 0 || index >= count)
+    public List<String> getRow(int index) {
+        if (index < 0 || index >= countRow)
             throw new IndexOutOfBoundsException();
-        Object arr = listOfRows.get(index);
-        return arr;
+        List<String> str = listOfRows.get(index);
+        return str;
     }
 
     public void removeRow (int index) {
-        if (index < 0 || index >= count)
+        if (index < 0 || index >= countRow)
             throw new IndexOutOfBoundsException();
         listOfRows.remove(index);
-        count--;
+        countRow--;
     }
-
 
     public void clearTable() {
         listOfRows.clear();
-        count = 0;
+        countRow = 0;
     }
 }

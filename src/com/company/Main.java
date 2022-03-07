@@ -26,6 +26,7 @@ public class Main {
     public static void main(String[] args) {
         Locale.setDefault(Locale.ROOT);
 
+
         Table list = new Table();
 //        list.add(arr);
 //        for (int i = 0; i < list.count; i++) {
