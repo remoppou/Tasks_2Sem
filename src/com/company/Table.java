@@ -11,7 +11,17 @@ public class Table {
     private int calk;
 
     class Name {
+        List<String> names = new ArrayList<>();
+        int countCol;
 
+        public void setNames(String name) {
+            names.add(name);
+            countCol++;
+        }
+
+        public int getCountCol() {
+            return countCol;
+        }
     }
 
     public Table() {
@@ -26,14 +36,13 @@ public class Table {
     }
 
     public int numColumn() {
-        return countCol;
+        // инициализировать класс и взять оттуда колонки!!!!!!!!
+        return ;
     }
 
-    public void countColPlus() {
+    public void countColPlus(String nameOfNewCol) {
         countCol++;
     }
-
-
 
 //    public void cell(String a, int indexRow, String indexCol) {
 //        int indexC = name(indexCol); //Реализовать имена колонок
