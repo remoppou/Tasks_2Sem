@@ -13,6 +13,7 @@ public class Table {
         listOfRows = new ArrayList<>();
         row = new ArrayList<>();
         countRow = 0;
+        countCol = 0;
     }
 
     public int sizeOfRows() {
@@ -23,8 +24,23 @@ public class Table {
         return countCol;
     }
 
+    public void addInRow(String a) {
+        row.add(a);
+        countCol++;
+    }
+
+    public void removeCol(int indexCol){
+        if (indexCol < 0 || indexCol >= countCol)
+            throw new IndexOutOfBoundsException();
+        for (int i = 0; i < listOfRows.size(); i++) {
+            listOfRows.get(i).remove(indexCol);
+        }
+        countCol--;
+    }
+
     public void addInListOfRows(List<String> row) {
         listOfRows.add(row);
+        row.clear();
         countRow++;
     }
 
