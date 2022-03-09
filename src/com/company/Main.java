@@ -12,6 +12,7 @@ package com.company;
 //4. удаление столбца +
 //5. очистка всей таблицы +
 //6. запись в ячейку и работа с ней +-
+//7. класс с названиями + колонками + строками
 
 
 import javax.naming.Name;
@@ -25,16 +26,13 @@ public class Main {
     public static void main(String[] args) {
         Locale.setDefault(Locale.ROOT);
 
-        Object arr = new Object(5);
-        arr.add("a");
-        arr.add("b");
 
         Table list = new Table();
-        list.add(arr);
-        for (int i = 0; i < list.count; i++) {
-            for (int j = 0; j < arr.column(); j++) {
-                System.out.println(list.getList(i).get(j));
-            }
-        }
+//        list.add(arr);
+//        for (int i = 0; i < list.count; i++) {
+//            for (int j = 0; j < arr.column(); j++) {
+//                System.out.println(list.getList(i).get(j));
+//            }
+//        }
     }
 }
