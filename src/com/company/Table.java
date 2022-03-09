@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table {
+public class Table{
     public List<List<String>> listOfRows;
     public List<String> row;
     public int countRow;
@@ -73,11 +73,6 @@ public class Table {
         countCol++;
     }
 
-//    public void cell(String a, int indexRow, String indexCol) {
-//        int indexC = name(indexCol); //Реализовать имена колонок
-//        listOfRows.get(indexRow).add(indexC, a);
-//    }
-
     //Добавление элемента до момента, пока не заполнится строка
     public void addInRow(String a) {
         while (row.size() < numColumn()) {
@@ -106,11 +101,16 @@ public class Table {
     }
 
     //Получение строки по индексу
-    public List<String> getRow(int index) {
+    public List<String> row(int index) {
         if (index < 0 || index >= countRow)
             throw new IndexOutOfBoundsException();
         List<String> str = listOfRows.get(index);
         return str;
+    }
+
+    public int column(String nameOfCol) throws Exception{
+        Name name = new Name();
+        return name.findColumn(nameOfCol);
     }
 
     //Удаление строки
@@ -128,4 +128,9 @@ public class Table {
         Name name = new Name();
         name.removeAll();
     }
+
+    // table.column("column_name").cell(5).setValue("123");
+    // int value = table.row(5).cell("column_name").getValueAsInt("123");
+    // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
+    // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
 }

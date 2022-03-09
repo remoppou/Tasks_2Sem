@@ -7,7 +7,7 @@ package com.company;
 // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
 // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
 //1. ... +
-//2. именнованные столбцы
+//2. именнованные столбцы+
 //3. удаление и добавление данных в строку +
 //4. удаление столбца +
 //5. очистка всей таблицы +
@@ -27,7 +27,8 @@ public class Main {
         Locale.setDefault(Locale.ROOT);
 
 
-        Table list = new Table();
+        Table table = new Table();
+
 //        list.add(arr);
 //        for (int i = 0; i < list.count; i++) {
 //            for (int j = 0; j < arr.column(); j++) {
