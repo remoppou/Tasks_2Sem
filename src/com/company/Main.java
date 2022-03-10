@@ -23,12 +23,17 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Locale.setDefault(Locale.ROOT);
 
+        table temp = new table() {
 
+            @Override
+            public int column(String name) throws Exception {
+                return 0;
+            }
+        };
         Table table = new Table();
-
 //        list.add(arr);
 //        for (int i = 0; i < list.count; i++) {
 //            for (int j = 0; j < arr.column(); j++) {

@@ -3,7 +3,19 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table{
+// table.column("column_name").cell(5).setValue("123");
+interface table {
+    int column(String name) throws Exception;
+}
+
+interface cell extends table {
+    List<String> row(int row);
+}
+// int value = table.row(5).cell("column_name").getValueAsInt("123");
+// table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
+// table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
+
+public class Table implements table{
     public List<List<String>> listOfRows;
     public List<String> row;
     public int countRow;
@@ -73,6 +85,10 @@ public class Table{
         countCol++;
     }
 
+    public String cell(int indexRow, int indexCol) {
+        return row(indexRow).get(indexCol);
+    }
+
     //Добавление элемента до момента, пока не заполнится строка
     public void addInRow(String a) {
         while (row.size() < numColumn()) {
@@ -108,9 +124,15 @@ public class Table{
         return str;
     }
 
-    public int column(String nameOfCol) throws Exception{
+    public int column(String nameOfCol) throws Exception {
         Name name = new Name();
         return name.findColumn(nameOfCol);
+    }
+
+
+    public void setValue(int row, String nameOfCol, String value) throws Exception {
+        int col = column(nameOfCol);
+        row(row).add(col,value);
     }
 
     //Удаление строки
@@ -128,9 +150,4 @@ public class Table{
         Name name = new Name();
         name.removeAll();
     }
-
-    // table.column("column_name").cell(5).setValue("123");
-    // int value = table.row(5).cell("column_name").getValueAsInt("123");
-    // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
-    // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
 }
