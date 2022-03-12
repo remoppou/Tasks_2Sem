@@ -5,12 +5,33 @@ import java.util.List;
 
 // table.column("column_name").cell(5).setValue("123");
 interface table {
-    int column(String name) throws Exception;
+    interface cell {
+        int column(String nameOfCol);
+        List<String> row(int index);
+        interface setValue{
+            void setValue();
+        };
+    }
+    interface column{
+        int column(String name) throws Exception;
+        interface cell{
+            List<String> row(int row);
+            interface setValue{
+                void setValue();
+            };
+        }
+    }
+    interface row{
+        List<String> row(int index);
+        interface cell{
+            int column(String colName);
+            interface getValueAsInt{
+
+            }
+        }
+    }
 }
 
-interface cell extends table {
-    List<String> row(int row);
-}
 // int value = table.row(5).cell("column_name").getValueAsInt("123");
 // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
 // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
@@ -133,6 +154,10 @@ public class Table implements table{
     public void setValue(int row, String nameOfCol, String value) throws Exception {
         int col = column(nameOfCol);
         row(row).add(col,value);
+    }
+
+    public void setValue(int row, int col, String value) {
+        row(row).add(col, value);
     }
 
     //Удаление строки
