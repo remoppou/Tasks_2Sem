@@ -26,7 +26,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Locale.setDefault(Locale.ROOT);
 
-//        Table table = new Table();
+        Table table = new Table();
 //        list.add(arr);
 //        for (int i = 0; i < list.count; i++) {
 //            for (int j = 0; j < arr.column(); j++) {
