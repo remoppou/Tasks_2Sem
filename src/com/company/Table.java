@@ -4,13 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Mycell (with set amd get);
-// List name  - class dont need;
 
 public class Table{
     public List<List<String>> listOfRows;
     public List<String> names;
     public int countRow;
     public int countCol;
+
+    class MyCell{
+        String nameCol;
+        int indexRow;
+
+        public void getValueAsInt(String value) {
+
+        }
+    }
 
     public Table() {
         listOfRows = new ArrayList<>();
