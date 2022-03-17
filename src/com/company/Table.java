@@ -8,6 +8,31 @@ public class Table{
     public List<String> names;
     public int countRow;
     public int countCol;
+    MyCell cell = new MyCell();
+    MyColumn column = new MyColumn();
+    MyRow row1 = new MyRow();
+
+    class MyRow {
+        String nameCol;
+        int indexRow;
+
+        public MyCell cell(String nameCol) {
+            cell.nameCol = nameCol;
+            cell.indexRow = indexRow;
+            return cell;
+        }
+    }
+
+    class MyColumn {
+        String nameCol;
+        int indexRow;
+
+        public MyCell cell(int index) {
+            cell.nameCol = nameCol;
+            cell.indexRow = index;
+            return cell;
+        }
+    }
 
     class MyCell{
         String nameCol;
@@ -77,6 +102,28 @@ public class Table{
         countCol = 0;
     }
 
+    public MyRow row(int index) {
+        row1.indexRow = index;
+        return row1;
+    }
+
+    public MyColumn column(String colName) {
+        column.nameCol = colName;
+        return column;
+    }
+
+    public MyCell cell(String nameOfCol, int indexRow) {
+        cell.nameCol = nameOfCol;
+        cell.indexRow = indexRow;
+        return cell;
+    }
+
+    public MyCell cell(int indexRow, String nameOfCol) {
+        cell.nameCol = nameOfCol;
+        cell.indexRow = indexRow;
+        return cell;
+    }
+
     //Доб. столбца
     public void addCol(String nameOfNewCol) {
         names.add(nameOfNewCol);
@@ -131,7 +178,7 @@ public class Table{
     }
 
     //Получение строки по индексу
-    public List<String> row(int index) {
+    public List<String> getRow(int index) {
         if (index < 0 || index >= countRow)
             throw new IndexOutOfBoundsException();
         return listOfRows.get(index);
@@ -167,11 +214,5 @@ public class Table{
         names.clear();
         countRow = 0;
         countCol = 0;
-    }
-
-    // table.column("column_name").cell(5).setValue("123");
-    public void setValue(String name) {
-        MyCell cell = new MyCell();
-
     }
 }

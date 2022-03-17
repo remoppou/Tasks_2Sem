@@ -8,11 +8,7 @@ package com.company;
 // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
 
 
-import javax.naming.Name;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 
 public class Main {
 
@@ -55,7 +51,7 @@ public class Main {
         table.addInRow("65");
 
         //Получение строки по индексу
-        System.out.println(table.row(0));
+        System.out.println(table.getRow(0));
 
         //удаление строки по индексу - work
         table.removeRow(0);
@@ -63,15 +59,15 @@ public class Main {
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65654");
-        System.out.println(table.row(0));
+        System.out.println(table.getRow(0));
 
         //Запись в конкретную ячейку - work
         table.cell(2,0,"88005553535");
-        System.out.println(table.row(0));
+        System.out.println(table.getRow(0));
 
         //Удаление колонки - work
         table.removeCol(0);
-        System.out.println(table.row(0));
+        System.out.println(table.getRow(0));
         for (int i = 0; i < table.countCol; i++) {
             System.out.print(table.names.get(i));
         }
@@ -79,9 +75,20 @@ public class Main {
 
         //Проверка на очистку содержимого(работает)
 
-        //table.column("column_name").cell(5).setValue("123");
-
-
+        // table.column("column_name").cell(5).setValue("123");
+        System.out.println(table.getRow(0));
+        table.column("5").cell(0).setValue("123");
+        System.out.println(table.getRow(0));
+        // int value = table.row(5).cell("column_name").getValueAsInt("123");
+        int value = table.row(0).cell("2").getValueAsInt();
+        System.out.println(value);
+        // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
+        System.out.println(table.getRow(0));
+        table.cell("1", 0).setValue(4 + 1);
+        System.out.println(table.getRow(0));
+        // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
+        table.cell(0, "1").setValue(4 + 2);
+        System.out.println(table.getRow(0));
         //Проверка на очистку всей таблицы-work
         table.clearAllTable();
         System.out.println("Количество имеющихся строк(Ответ 0): " + table.sizeRow());
