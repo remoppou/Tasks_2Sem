@@ -15,27 +15,68 @@ public class Table{
         String nameCol;
         int indexRow;
 
-        public void getValueAsInt(String value) {
+        public String getValue() throws Exception {
+            if (numCol(nameCol) == -1) {
+                throw new Exception("Такой колонки нет!!!!!!");
+            }
+            if (indexRow < 0 || indexRow >= sizeRow()) {
+                throw new IndexOutOfBoundsException();
+            }
+            return listOfRows.get(indexRow).get(numCol(nameCol));
+        }
 
+        public int getValueAsInt() throws Exception {
+            if (numCol(nameCol) == -1) {
+                throw new Exception("Такой колонки нет!!!!!!");
+            }
+            if (indexRow < 0 || indexRow >= sizeRow()) {
+                throw new IndexOutOfBoundsException();
+            }
+            String trueValue = listOfRows.get(indexRow).get(numCol(nameCol));
+            return Integer.parseInt(trueValue);
+        }
+
+
+        public int numCol(String nameCol) {
+            int numCol = -1;
+            for (int i = 0; i < names.size(); i++) {
+                if (names.get(i).equals(nameCol)) {
+                    numCol = i;
+                    return numCol;
+                }
+            }
+            return numCol;
+        }
+
+        public void setValue(int value) throws Exception {
+            if (numCol(nameCol) == -1) {
+                throw new Exception("Такой колонки нет!!!!!!");
+            }
+            if (indexRow < 0 || indexRow >= sizeRow()) {
+                throw new IndexOutOfBoundsException();
+            }
+            listOfRows.get(indexRow).remove(numCol(nameCol));
+            String trueValue = Integer.toString(value);
+            listOfRows.get(indexRow).add(numCol(nameCol), trueValue);
+        }
+
+        public void setValue(String value) throws Exception {
+            if (numCol(nameCol) == -1) {
+                throw new Exception("Такой колонки нет!!!!!!");
+            }
+            if (indexRow < 0 || indexRow >= sizeRow()) {
+                throw new IndexOutOfBoundsException();
+            }
+            listOfRows.get(indexRow).remove(numCol(nameCol));
+            listOfRows.get(indexRow).add(numCol(nameCol), value);
         }
     }
 
     public Table() {
         listOfRows = new ArrayList<>();
         names = new ArrayList<>();
-        listOfRows.add(names);
         countRow = 0;
         countCol = 0;
-    }
-
-    //Количество строк
-    public int sizeOfRows() {
-        return countRow;
-    }
-
-    //Количество столбцов
-    public int numColumn() {
-        return names.size();
     }
 
     //Доб. столбца
@@ -44,24 +85,19 @@ public class Table{
         countCol++;
     }
 
-//    public MyCell cell(int indexRow, int indexCol) {
-//        return row(indexRow).get(indexCol);
-//    }
-
     //Добавление элемента до момента, пока не заполнится строка
     public void addInRow(String a) {
         int index = listOfRows.size();
-        if (index == 1) {
+        if (index == 0) {
             List<String> row = new ArrayList<>();
             listOfRows.add(row);
             countRow++;
-            index++;
         }
-        if (listOfRows.get(index).size() < countCol) {
-            listOfRows.get(index).add(a);
-        }
-        if (listOfRows.get(index).size() == countCol) {
-            listOfRows.get(index).add(a);
+        if (listOfRows.get(index - 1).size() < countCol - 1) {
+            listOfRows.get(index - 1).add(a);
+        } else
+        if (listOfRows.get(index - 1).size() == countCol - 1) {
+            listOfRows.get(index - 1).add(a);
             System.out.println("Строка заполнена!!!");
             addRow();
         }
@@ -71,7 +107,7 @@ public class Table{
     public void removeCol(int indexCol){
         if (indexCol < 0 || indexCol >= countCol)
             throw new IndexOutOfBoundsException();
-        for (int i = 0; i < listOfRows.size(); i++) {
+        for (int i = 0; i < listOfRows.size() - 1; i++) {
             listOfRows.get(i).remove(indexCol);
         }
         names.remove(indexCol);
@@ -83,6 +119,17 @@ public class Table{
         List<String> row = new ArrayList<>();
         listOfRows.add(row);
         countRow++;
+    }
+
+    //Работа с ячейкой по индесам
+    public void cell(int indexCol, int indexRow, String value){
+        if (indexRow < 0 || indexRow >= countRow)
+            throw new IndexOutOfBoundsException();
+        if (indexCol < 0 || indexCol >= countCol)
+            throw new IndexOutOfBoundsException();
+
+        listOfRows.get(indexRow).remove(indexCol);
+        listOfRows.get(indexRow).add(indexCol,value);
     }
 
     //Получение строки по индексу
@@ -98,6 +145,16 @@ public class Table{
             throw new IndexOutOfBoundsException();
         listOfRows.remove(index);
         countRow--;
+    }
+
+    //Узнать количество столбцов
+    public int sizeCol() {
+        return countCol;
+    }
+
+    //Узнать кол-во строк
+    public int sizeRow() {
+        return countRow;
     }
 
     //Очистка таблицы

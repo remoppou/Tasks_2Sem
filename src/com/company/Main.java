@@ -6,13 +6,7 @@ package com.company;
 // int value = table.row(5).cell("column_name").getValueAsInt("123");
 // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
 // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
-//1. ... +
-//2. именнованные столбцы+
-//3. удаление и добавление данных в строку +
-//4. удаление столбца +
-//5. очистка всей таблицы +
-//6. запись в ячейку и работа с ней +-
-//7. класс с названиями + колонками + строками
+//5. очистка всей таблицы
 
 
 import javax.naming.Name;
@@ -27,12 +21,60 @@ public class Main {
         Locale.setDefault(Locale.ROOT);
 
         Table table = new Table();
+        //проверка на добавление и удаление колонок - work
+        table.addCol("1");
+        table.addCol("2");
+        table.addCol("3");
+        System.out.println("Количество имеющихся колонок(ответ 3): " + table.sizeCol());
+        table.addCol("5");
+        System.out.println("Количество имеющихся колонок(Ответ 4): " + table.sizeCol());
+        table.removeCol(0);
+        table.removeCol(0);
+        System.out.println("Количество имеющихся колонок(Ответ 2): " + table.sizeCol());
+        table.addCol("1");
+        table.addCol("2");
+        System.out.println("Количество имеющихся колонок(Ответ 4): " + table.sizeCol());
+        //Проверка на работу со строками - work
+        System.out.println("Количество имеющихся строк(Ответ 0): " + table.sizeRow());
+        table.addRow();
+        table.addRow();
+        System.out.println("Количество имеющихся строк(Ответ 2): " + table.sizeRow());
+        table.removeRow(0);
+        System.out.println("Количество имеющихся строк(Ответ 1): " + table.sizeRow());
+        //Именнованные столбцы;
+        for (int i = 0; i < table.countCol; i++) {
+            System.out.print(table.names.get(i));
+        }
+        System.out.println();
+        //работа с заполняемостью строк - work
+        table.addInRow("65");
+        table.addInRow("65");
+        table.addInRow("65");
+        table.addInRow("65");
+        //Получение строки по индексу
+        System.out.println(table.row(0));
+        //удаление строки по индексу - work
+        table.removeRow(0);
+        table.addInRow("65");
+        table.addInRow("65");
+        table.addInRow("65");
+        table.addInRow("65654");
+        System.out.println(table.row(0));
+        //Запись в конкретную ячейку - work
+        table.cell(2,0,"88005553535");
+        System.out.println(table.row(0));
+        //Удаление колонки - work
+        table.removeCol(0);
+        System.out.println(table.row(0));
+        for (int i = 0; i < table.countCol; i++) {
+            System.out.print(table.names.get(i));
+        }
+        System.out.println();
+        //Проверка на очистку содержимого(работает)
+        //table.column("column_name").cell(5).setValue("123");
 
-//        list.add(arr);
-//        for (int i = 0; i < list.count; i++) {
-//            for (int j = 0; j < arr.column(); j++) {
-//                System.out.println(list.getList(i).get(j));
-//            }
-//        }
+
+        //Проверка на очистку всей таблицы(В самом конце - не забыть)
+
     }
 }
