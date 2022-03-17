@@ -34,6 +34,7 @@ public class Main {
         table.addCol("1");
         table.addCol("2");
         System.out.println("Количество имеющихся колонок(Ответ 4): " + table.sizeCol());
+
         //Проверка на работу со строками - work
         System.out.println("Количество имеющихся строк(Ответ 0): " + table.sizeRow());
         table.addRow();
@@ -41,18 +42,22 @@ public class Main {
         System.out.println("Количество имеющихся строк(Ответ 2): " + table.sizeRow());
         table.removeRow(0);
         System.out.println("Количество имеющихся строк(Ответ 1): " + table.sizeRow());
+
         //Именнованные столбцы;
         for (int i = 0; i < table.countCol; i++) {
             System.out.print(table.names.get(i));
         }
         System.out.println();
+
         //работа с заполняемостью строк - work
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65");
+
         //Получение строки по индексу
         System.out.println(table.row(0));
+
         //удаление строки по индексу - work
         table.removeRow(0);
         table.addInRow("65");
@@ -60,9 +65,11 @@ public class Main {
         table.addInRow("65");
         table.addInRow("65654");
         System.out.println(table.row(0));
+
         //Запись в конкретную ячейку - work
         table.cell(2,0,"88005553535");
         System.out.println(table.row(0));
+
         //Удаление колонки - work
         table.removeCol(0);
         System.out.println(table.row(0));
@@ -70,11 +77,15 @@ public class Main {
             System.out.print(table.names.get(i));
         }
         System.out.println();
+
         //Проверка на очистку содержимого(работает)
+
         //table.column("column_name").cell(5).setValue("123");
 
 
-        //Проверка на очистку всей таблицы(В самом конце - не забыть)
-
+        //Проверка на очистку всей таблицы-work
+        table.clearAllTable();
+        System.out.println("Количество имеющихся строк(Ответ 0): " + table.sizeRow());
+        System.out.println("Количество имеющихся столбцов(Ответ 0): " + table.sizeCol());
     }
 }

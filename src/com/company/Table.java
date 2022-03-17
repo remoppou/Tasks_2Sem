@@ -3,8 +3,6 @@ package com.company;
 import java.util.ArrayList;
 import java.util.List;
 
-// Mycell (with set amd get);
-
 public class Table{
     public List<List<String>> listOfRows;
     public List<String> names;
