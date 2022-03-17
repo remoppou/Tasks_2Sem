@@ -6,7 +6,6 @@ package com.company;
 // int value = table.row(5).cell("column_name").getValueAsInt("123");
 // table.cell("column_name", 5).setValue(value + 1);  // параметрический полиморфизм
 // table.cell(5, "column_name").setValue(value + 2);  // параметрический полиморфизм
-//5. очистка всей таблицы
 
 
 import javax.naming.Name;

@@ -168,4 +168,10 @@ public class Table{
         countRow = 0;
         countCol = 0;
     }
+
+    // table.column("column_name").cell(5).setValue("123");
+    public void setValue(String name) {
+        MyCell cell = new MyCell();
+
+    }
 }
