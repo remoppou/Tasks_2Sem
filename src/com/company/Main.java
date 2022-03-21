@@ -16,7 +16,7 @@ public class Main {
         Locale.setDefault(Locale.ROOT);
 
         Table table = new Table();
-        //проверка на добавление и удаление колонок - work
+        //проверка на добавление и удаление колонок;
         table.addCol("1");
         table.addCol("2");
         table.addCol("3");
@@ -30,50 +30,44 @@ public class Main {
         table.addCol("2");
         System.out.println("Количество имеющихся колонок(Ответ 4): " + table.sizeCol());
 
-        //Проверка на работу со строками - work
-        System.out.println("Количество имеющихся строк(Ответ 0): " + table.sizeRow());
-        table.addRow();
-        table.addRow();
-        System.out.println("Количество имеющихся строк(Ответ 2): " + table.sizeRow());
-        table.removeRow(0);
-        System.out.println("Количество имеющихся строк(Ответ 1): " + table.sizeRow());
-
         //Именнованные столбцы;
-        for (int i = 0; i < table.countCol; i++) {
-            System.out.print(table.names.get(i));
-        }
-        System.out.println();
+        table.printNames();
 
-        //работа с заполняемостью строк - work
+        //работа с заполняемостью строк;
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65");
 
-        //Получение строки по индексу
+        //Получение строки по индексу;
         System.out.println(table.getRow(0));
 
-        //удаление строки по индексу - work
+        //удаление строки по индексу;
         table.removeRow(0);
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65");
         table.addInRow("65654");
         System.out.println(table.getRow(0));
+        System.out.println("---------------------");
 
-        //Запись в конкретную ячейку - work
-        table.cell(2,0,"88005553535");
-        System.out.println(table.getRow(0));
+        Table.MyColumn c1 = table.column("1");
+        Table.MyColumn c2 = table.column("2");
+        for (int i = 0; i < table.sizeRow(); i++) {
+            String tmp  = c1.cell(i).getValue();
+            c1.cell(i).setValue(c2.cell(i).getValue());
+            c2.cell(i).setValue(tmp);
+        }
+        for (int i = 0; i < table.sizeRow(); i++) {
+            System.out.println(table.getRow(i));
+        }
 
-        //Удаление колонки - work
+        //Удаление колонки;
         table.removeCol(0);
         System.out.println(table.getRow(0));
-        for (int i = 0; i < table.countCol; i++) {
-            System.out.print(table.names.get(i));
-        }
+//        table.removeCol("5");
+        table.printNames();
         System.out.println();
-
-        //Проверка на очистку содержимого(работает)
 
         // table.column("column_name").cell(5).setValue("123");
         System.out.println(table.getRow(0));
