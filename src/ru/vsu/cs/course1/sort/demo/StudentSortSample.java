@@ -1,6 +1,9 @@
 package ru.vsu.cs.course1.sort.demo;
 
+import ru.vsu.cs.course1.sort.BubbleSort;
+
 import java.util.Arrays;
+import java.util.Comparator;
 
 
 public class StudentSortSample {
@@ -25,6 +28,19 @@ public class StudentSortSample {
         public int compareTo(Student o) {
             return this.name.compareTo(o.name);
         }
+
+
+        public String getName() {
+            return name;
+        }
+
+        public char getSex() {
+            return sex;
+        }
+
+        public int getHeight() {
+            return height;
+        }
     }
 
 
@@ -38,9 +54,9 @@ public class StudentSortSample {
         };
 
         // сортировка по росту, как на занятия по физкультуре (сначала парни, затем девушки)
-        Arrays.sort(students, (a, b) -> {
+        BubbleSort.sort(students, (a, b) -> {
             if (a.sex == b.sex) {
-                return b.height - a.height;
+                return b.height - a.height;  // a = 170, b = 180 => b - a = 10
             } else {
                 return a.sex == 'B' ? -1 : 1;
             }
@@ -50,6 +66,26 @@ public class StudentSortSample {
         }
         System.out.println("-------------");
 
+        Arrays.sort(students, Comparator
+                .comparing((Student s) -> s.sex)
+                .thenComparing(Comparator.comparing((Student s) -> s.height).reversed()));
+        /*
+        Arrays.sort(students, Comparator
+                .comparing((Student s) -> s.sex)
+                .thenComparing((Student s) -> -s.height));
+         */
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        System.out.println("-------------");
+
+        Arrays.sort(students, Comparator
+                .comparing(Student::getSex)
+                .thenComparing(Comparator.comparing(Student::getHeight).reversed()));
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        System.out.println("-------------");
         /*
             Конструкция (a, b) -> код
             называется лямбда-выражением и является "синтаксическим сахаром",

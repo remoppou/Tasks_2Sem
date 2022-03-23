@@ -44,6 +44,9 @@ public class BubbleSort {
         }
         sort(data, new TempComparator());
         */
+        /*
+        sort(data, (a, b) -> a.compareTo(b));
+        */
         sort(data, Comparable::compareTo);
     }
 
