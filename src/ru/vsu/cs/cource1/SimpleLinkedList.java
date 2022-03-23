@@ -31,16 +31,22 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     // O(1)
 
     public void sort(SimpleLinkedList<Integer> list) throws SimpleLinkedListException {
+        SimpleLinkedList<Integer>.SimpleLinkedListNode a;
+        SimpleLinkedList<Integer>.SimpleLinkedListNode b ;
         for (int i = 0; i < size - 1; i++) {
             for (int j = size - 1; j >= i; j--) {
                 if (list.getNode(j - 1).value > list.getNode(j).value) {
-                    SimpleLinkedList<Integer>.SimpleLinkedListNode temp = list.getNode(j);
-                    list.getNode(j - 1).next = list.getNode(j - 1);
-
+                    a = list.getNode(j - 1);
+                    b = list.getNode(j);
+                    SimpleLinkedList<Integer>.SimpleLinkedListNode temp = b;
+                    b = a;
+                    a = temp;
+                    b.next = a;
+                    if (a.next != null) a.next = a.next.next;
+                    //list.getNode(j - 1).next = list.getNode(j - 1);
                     if (list.getNode(j) == tail) {
                         temp.next = list.getNode(j - 1);
                         list.getNode(j - 1).next = null;
-
                     }
 
                     list.getNode(j - 1).next = list.getNode(j - 1);
