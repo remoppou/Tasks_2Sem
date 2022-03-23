@@ -29,6 +29,16 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     private int size = 0;
 
     // O(1)
+
+    public void sort(SimpleLinkedList<Integer> list) throws SimpleLinkedListException {
+        SimpleLinkedListNode temp;
+        for (int i = 0; i < size - 1; i++) {
+            if (list.get(i) > list.get(i + 1)) {
+
+            }
+        }
+    }
+
     public void addFirst(T value) {
         head = new SimpleLinkedListNode(value, head);
         if (size == 0) {
