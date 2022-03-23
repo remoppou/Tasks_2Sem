@@ -23,6 +23,12 @@ public class Main {
             System.out.print((i > 0 ? ", " : "") + list.get(i));
         }
         System.out.println();
+
+        list.sort(list);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print((i > 0 ? ", " : "") + list.get(i));
+        }
+        System.out.println();
 //
 //        list.remove(2);
 //        list.removeFirst();
