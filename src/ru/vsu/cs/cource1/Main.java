@@ -24,7 +24,7 @@ public class Main {
         }
         System.out.println();
 
-        list.sort(list);
+        list.bubbleSort(list);
         for (int i = 0; i < list.size(); i++) {
             System.out.print((i > 0 ? ", " : "") + list.get(i));
         }

@@ -1,5 +1,6 @@
 package ru.vsu.cs.cource1;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class SimpleLinkedList<T> implements Iterable<T> {
@@ -30,28 +31,39 @@ public class SimpleLinkedList<T> implements Iterable<T> {
 
     // O(1)
 
-    public void sort(SimpleLinkedList<Integer> list) throws SimpleLinkedListException {
-        SimpleLinkedList<Integer>.SimpleLinkedListNode a;
-        SimpleLinkedList<Integer>.SimpleLinkedListNode b ;
+    public void bubbleSort(Comparator<T> comparator) {
         for (int i = 0; i < size - 1; i++) {
-            for (int j = size - 1; j >= i; j--) {
-                if (list.getNode(j - 1).value > list.getNode(j).value) {
-                    a = list.getNode(j - 1);
-                    b = list.getNode(j);
-                    SimpleLinkedList<Integer>.SimpleLinkedListNode temp = b;
-                    b = a;
-                    a = temp;
-                    b.next = a;
-                    if (a.next != null) a.next = a.next.next;
-                    //list.getNode(j - 1).next = list.getNode(j - 1);
-                    if (list.getNode(j) == tail) {
-                        temp.next = list.getNode(j - 1);
-                        list.getNode(j - 1).next = null;
+            boolean wasChange = false;
+
+            SimpleLinkedListNode top = head;
+            if (comparator.compare(top.value, top.next.value) < 0) {
+                head = top.next;
+                SimpleLinkedListNode temp = top.next.next;
+                top.next.next = top;
+                top.next = temp;
+                wasChange = true;
+            }
+
+            int j = 0;
+            for (SimpleLinkedListNode curr = head; j < size - 2; curr = curr.next) {
+                if (comparator.compare(curr.next.value, curr.next.next.value) < 0) {
+                    if (j == size - 3) {
+                        tail = curr.next;
                     }
 
-                    list.getNode(j - 1).next = list.getNode(j - 1);
+                    SimpleLinkedListNode cn = curr.next;
+                    SimpleLinkedListNode cnnn = curr.next.next.next;
 
+                    curr.next = curr.next.next;
+                    curr.next.next = cn;
+                    curr.next.next.next = cnnn;
+
+                    wasChange = true;
                 }
+                j++;
+            }
+            if (!wasChange) {
+                break;
             }
         }
     }
