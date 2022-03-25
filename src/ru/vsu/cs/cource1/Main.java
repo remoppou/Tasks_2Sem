@@ -1,5 +1,7 @@
 package ru.vsu.cs.cource1;
 
+import java.util.Comparator;
+
 public class Main {
 
     //(*) Реализовать для списка пузырьковую сортировку:
@@ -11,6 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+
 
         list.addFirst(20);
         list.addFirst(10);

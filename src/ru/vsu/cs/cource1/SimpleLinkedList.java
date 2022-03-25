@@ -34,7 +34,6 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     public void bubbleSort(Comparator<T> comparator) {
         for (int i = 0; i < size - 1; i++) {
             boolean wasChange = false;
-
             SimpleLinkedListNode top = head;
             if (comparator.compare(top.value, top.next.value) < 0) {
                 head = top.next;
@@ -43,7 +42,6 @@ public class SimpleLinkedList<T> implements Iterable<T> {
                 top.next = temp;
                 wasChange = true;
             }
-
             int j = 0;
             for (SimpleLinkedListNode curr = head; j < size - 2; curr = curr.next) {
                 if (comparator.compare(curr.next.value, curr.next.next.value) < 0) {
