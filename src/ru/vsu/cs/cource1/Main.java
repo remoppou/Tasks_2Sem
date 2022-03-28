@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
 
-
         list.addFirst(20);
         list.addFirst(10);
         list.addLast(1130);
@@ -26,8 +25,13 @@ public class Main {
             System.out.print((i > 0 ? ", " : "") + list.get(i));
         }
         System.out.println();
-
-        list.bubbleSort(list);
+        Comparator<Integer> comparator = new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        };
+        list.bubbleSort(comparator);
         for (int i = 0; i < list.size(); i++) {
             System.out.print((i > 0 ? ", " : "") + list.get(i));
         }
