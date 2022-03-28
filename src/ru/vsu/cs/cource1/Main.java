@@ -14,12 +14,19 @@ public class Main {
     public static void main(String[] args) throws Exception {
         SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
 
+        list.addLast(30);
+        list.addFirst(500);
         list.addFirst(20);
         list.addFirst(10);
         list.addLast(1130);
+        list.addLast(1130);
+        list.addLast(140);
         list.addLast(140);
         list.addFirst(50);
+        list.addLast(10);
+        list.addLast(10);
         list.addFirst(100);
+        list.addFirst(50);
 
         for (int i = 0; i < list.size(); i++) {
             System.out.print((i > 0 ? ", " : "") + list.get(i));

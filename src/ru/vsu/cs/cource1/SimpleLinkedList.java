@@ -31,6 +31,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
 
     // O(1)
 
+    // Создать переменную конца и проверять конец... + попробовать вообще исправиться от j
+
     public void bubbleSort(Comparator<T> comparator) {
         for (int i = 0; i < size - 1; i++) {
             boolean wasChange = false;
@@ -43,11 +45,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
                 wasChange = true;
             }
             int j = 0;
-            for (SimpleLinkedListNode curr = head; j < size - 2; curr = curr.next) {
+            for (SimpleLinkedListNode curr = head; j < size - i - 2; curr = curr.next) {
                 if (comparator.compare(curr.next.value, curr.next.next.value) < 0) {
-                    if (j == size - 3) {
-                        tail = curr.next;
-                    }
 
                     SimpleLinkedListNode cn = curr.next;
                     SimpleLinkedListNode cnnn = curr.next.next.next;
