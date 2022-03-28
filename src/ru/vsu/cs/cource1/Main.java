@@ -27,6 +27,8 @@ public class Main {
         list.addLast(10);
         list.addFirst(100);
         list.addFirst(50);
+        list.addLast(400);
+        list.addFirst(200);
 
         for (int i = 0; i < list.size(); i++) {
             System.out.print((i > 0 ? ", " : "") + list.get(i));
