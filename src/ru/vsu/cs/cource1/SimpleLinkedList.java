@@ -33,9 +33,10 @@ public class SimpleLinkedList<T> implements Iterable<T> {
 
     // Создать переменную конца и проверять конец... + попробовать вообще исправиться от j
 
-    public void bubbleSort1(Comparator<T> comparator) {
+    public void bubbleSortWork(Comparator<T> comparator) {
         for (int i = 0; i < size - 1; i++) {
             boolean wasChange = false;
+
             SimpleLinkedListNode top = head;
             if (comparator.compare(top.value, top.next.value) < 0) {
                 head = top.next;
@@ -44,9 +45,15 @@ public class SimpleLinkedList<T> implements Iterable<T> {
                 top.next = temp;
                 wasChange = true;
             }
+            if (wasChange && size == 2) {
+                tail = head.next;
+            }
             int j = 0;
-            for (SimpleLinkedListNode curr = head; j < size - i - 2; curr = curr.next) {
+            for (SimpleLinkedListNode curr = head; j < size - 2; curr = curr.next) {
                 if (comparator.compare(curr.next.value, curr.next.next.value) < 0) {
+                    if (j == size - 3) {
+                        tail = curr.next;
+                    }
 
                     SimpleLinkedListNode cn = curr.next;
                     SimpleLinkedListNode cnnn = curr.next.next.next;
@@ -66,8 +73,11 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     }
 
     public void bubbleSort(Comparator<T> comparator) {
+        SimpleLinkedListNode back = tail;
+        SimpleLinkedListNode help = null;
         for (int i = 0; i < size - 1; i++) {
             boolean wasChange = false;
+
             SimpleLinkedListNode top = head;
             if (comparator.compare(top.value, top.next.value) < 0) {
                 head = top.next;
@@ -76,8 +86,15 @@ public class SimpleLinkedList<T> implements Iterable<T> {
                 top.next = temp;
                 wasChange = true;
             }
-            for (SimpleLinkedListNode curr = head; curr.next.next != null; curr = curr.next) {
+            if (wasChange && size == 2) {
+                tail = head.next;
+                break;
+            }
+            for (SimpleLinkedListNode curr = head; curr.next != back.next; curr = curr.next) {
                 if (comparator.compare(curr.next.value, curr.next.next.value) < 0) {
+                    if (back == tail && curr.next.next == back) {
+                        tail = curr.next;
+                    }
 
                     SimpleLinkedListNode cn = curr.next;
                     SimpleLinkedListNode cnnn = curr.next.next.next;
@@ -88,7 +105,9 @@ public class SimpleLinkedList<T> implements Iterable<T> {
 
                     wasChange = true;
                 }
+                help = curr.next;
             }
+            back = help;
             if (!wasChange) {
                 break;
             }
