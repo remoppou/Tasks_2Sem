@@ -20,8 +20,6 @@ public class Program {
     public static void main(String[] args) throws Exception {
         Locale.setDefault(Locale.ROOT);
 
-        StudentSortSample.demo();
-
         //SwingUtils.setLookAndFeelByName("Windows");
         //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         //SwingUtils.setDefaultFont(null, 20);

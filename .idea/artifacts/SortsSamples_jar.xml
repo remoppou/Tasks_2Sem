@@ -2,7 +2,7 @@
   <artifact type="jar" name="SortsSamples:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/SortsSamples_jar</output-path>
     <root id="archive" name="SortsSamples.jar">
-      <element id="module-output" name="SortsSamples" />
+      <element id="module-output" name="Task4_var24" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/jfreechart-1.5.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/forms_rt-7.0.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/asm-commons-3.0.jar" path-in-jar="/" />
