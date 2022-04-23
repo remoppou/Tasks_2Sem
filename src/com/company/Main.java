@@ -18,14 +18,33 @@ import java.util.*;
 //Path PC: D:\IdeaProjects\Task3_var24\src\Test.txt
 //Path NB: D:\Projects(IDEA)\Task3_var24\src\Test.txt
 
+/**
+ *  Требуется сделать:
+ * 3. Сделать стандартную очередь
+ */
+
+
 public class Main {
+
+    public static Comparator<Buyer> comparator = new Comparator<Buyer>() {
+        @Override
+        public int compare(Buyer b1, Buyer b2) {
+            if (b1.boxOfficeTime() == b2.boxOfficeTime()) {
+                return 0;
+            }
+            if (b1.boxOfficeTime() > b2.boxOfficeTime()) {
+                return 1;
+            }
+            return -1;
+        }
+    };
 
     public static void startSimulation(String fileName){
         int[][] arr = ArrayUtils.readIntArray2FromFile(fileName);
         Shop shop = new Shop();
         for(int i = 0; i < arr.length; i++){
             try {
-                shop.addBuyer(arr[i]);
+                shop.addBuyer(arr[i], comparator);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage()+" in line "+i);

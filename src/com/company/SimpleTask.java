@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.Comparator;
 
-public class CustomQueue {
+public class SimpleTask<T> {
 
     protected class Element {
         private Buyer buyer;
@@ -17,11 +17,6 @@ public class CustomQueue {
     private Element head;
     private Element tail;
     private int size = 0;
-    Comparator<Buyer> comparator;
-
-    public CustomQueue(Comparator<Buyer> comparator) {
-        this.comparator = comparator;
-    }
 
     public int getSize() {
         return size;
@@ -31,28 +26,27 @@ public class CustomQueue {
         return size == 0;
     }
 
-    private void findPlace(Buyer buyer) {    //передается компаратор
+    private void findPlace(Buyer buyer, Comparator<Buyer> comparator) {
         if (head.buyer.boxOfficeTime() > buyer.boxOfficeTime()) {
             head = new Element(buyer, head);
         } else {
             Element current = head;
             while (current.next != null) {
                 int t = comparator.compare(buyer, current.next.buyer);
-                switch (t) {
-                    case 0:
-                        if (buyer.getN() >= current.next.buyer.getN()) {
-                            current = current.next;
-                            continue;
-                        } else {
-                            current.next = new Element(buyer, current.next);
-                            return;
-                        }
-                    case -1:
+                if (t == 1) {
+                    current = current.next;
+                    break;
+                } else if (t == 0) {
+                    if (buyer.getN() >= current.next.buyer.getN()) {
+                        current = current.next;
+                        continue;
+                    } else {
                         current.next = new Element(buyer, current.next);
                         return;
-                    default:
-                        current = current.next;
-                        break;
+                    }
+                } else {
+                    current.next = new Element(buyer, current.next);
+                    return;
                 }
             }
             if (current.next == null) {
@@ -63,11 +57,11 @@ public class CustomQueue {
     }
 
 
-    public boolean addElement(Buyer buyer) {
+    public boolean addElement(Buyer buyer, Comparator<Buyer> comparator) {
         if (isEmpty()) {
             head = tail = new Element(buyer, null);
         } else {
-            findPlace(buyer);
+            findPlace(buyer, comparator);
         }
         size++;
         return true;

@@ -3,23 +3,10 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class Shop {
+public class Shop<T> {
 
-    private Comparator<Buyer> comparator = new Comparator<Buyer>() {   //Это деду не нада
-        @Override
-        public int compare(Buyer b1, Buyer b2) {
-            if (b1.boxOfficeTime() == b2.boxOfficeTime()) {
-                return 0;
-            }
-            if (b1.boxOfficeTime() > b2.boxOfficeTime()) {
-                return 1;
-            }
-            return -1;
-        }
-    };
-    private CustomQueue boxOffice = new CustomQueue(comparator);
+    private SimpleTask boxOffice = new SimpleTask();
     private List<Buyer> buyers = new ArrayList<>();
 
     private boolean isBuyerIncorrect(Buyer buyer) {
@@ -36,13 +23,13 @@ public class Shop {
         return arr.length == 3;
     }
 
-    public void addBuyer(int[] data) throws Exception {
+    public void addBuyer(int[] data, Comparator<Buyer> comparator) throws Exception {
         if (!isDataCorrect(data)) {
             throw new Exception("Data is incorrect");
         }
         Buyer buyer = Buyer.createNewBuyer(data);
         if (!isBuyerIncorrect(buyer)) {
-            boxOffice.addElement(buyer);
+            boxOffice.addElement(buyer, comparator);
         } else {
             buyer.setLeftTime(buyer.boxOfficeTime());
             buyers.add(buyer);
@@ -67,11 +54,5 @@ public class Shop {
             }
         }
         return buyers;
-    }
-
-
-
-    public static Map<Buyer, Integer> work(List<Buyer> initial) {
-        //1 queue
     }
 }
