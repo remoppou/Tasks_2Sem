@@ -4,6 +4,8 @@ import util.ArrayUtils;
 
 import java.util.*;
 
+import static com.company.StandartQueue.*;
+
 /**    Смоделировать работу магазина. Отсчет времени начинается с 0, все время дискретно (т.е. события случаются только в
  «целочисленные» моменты времени, длительность любого действия также «целочисленна»). Покупатели приходят в
  магазин, набирают товары и идут на кассу. Для каждого покупателя известно, когда он пришел в магазин (S),
@@ -15,16 +17,8 @@ import java.util.*;
  магазин.
  «Рисовать» анимацию не требуется, достаточно, чтобы можно было ввести входные данные (или загрузить из файла)
  и просмотреть результат моделирования. */
-//Path PC: D:\IdeaProjects\Task3_var24\src\Test.txt
+//Path PC: D:\IdeaProjects\Oop_Task3_num24-Shop-\src\Test.txt
 //Path NB: D:\Projects(IDEA)\Task3_var24\src\Test.txt
-
-/**
- *  Требуется сделать:
- * 1. Shop;
- * 2. StandartShop;
- * 3. Допилить нормально очередь
- * 4. Сделать обычную очередь, а потом пункт 3;
- */
 
 
 public class Main {
@@ -42,18 +36,37 @@ public class Main {
         }
     };
 
-    public static void startSimulation(String fileName){
+    public static void startSimulationMyQueue(String fileName){
+        MyQueue boxOffice = new MyQueue();
+        List<Buyer> buyers = new ArrayList<>();
         int[][] arr = ArrayUtils.readIntArray2FromFile(fileName);
         Shop shop = new Shop();
         for(int i = 0; i < arr.length; i++){
             try {
-                shop.addBuyer(arr[i], comparator);
+                shop.addBuyer(arr[i], comparator, boxOffice, buyers);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage()+" in line "+i);
             }
         }
-        showResult(shop.resultOfSimulation());
+        showResult(shop.resultOfSimulation(boxOffice, buyers));
+    }
+
+    public static void startSimulationStandartQueue(String fileName){
+        List<Buyer> buyers = new ArrayList<>();
+        List<Buyer> inShop = new ArrayList<>();
+        Queue<Buyer> boxOffice = new ArrayDeque<>();
+        int[][] arr = ArrayUtils.readIntArray2FromFile(fileName);
+        for(int i = 0; i < arr.length; i++){
+            try {
+                addBuyer(arr[i], inShop, buyers);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage()+" in line "+i);
+            }
+        }
+        boxOffice = sortAndAdd(inShop, boxOffice);
+        showResult(resultOfSimulation(boxOffice, buyers));
     }
 
     public static void showResult(List<Buyer> buyers){
@@ -71,6 +84,11 @@ public class Main {
     public static void main(String[] args) {
         Scanner scn = new Scanner(System.in);
         System.out.print("Введите название файла: ");
-        startSimulation(scn.nextLine());
+        String path = scn.nextLine();
+        System.out.println("Модель работы магазина, реализованная собственной очередью: ");
+        startSimulationMyQueue(path);
+        System.out.println("--------------------------------------------------------------");
+        System.out.println("Модель работы магазина, реализованная встроенной очередью: ");
+        startSimulationStandartQueue(path);
     }
 }

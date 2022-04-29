@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Shop<T> {
-
-    private SimpleTask boxOffice = new SimpleTask();
-    private List<Buyer> buyers = new ArrayList<>();
+public class Shop {
 
     private boolean isBuyerIncorrect(Buyer buyer) {
         int N = buyer.getN();
@@ -23,25 +20,25 @@ public class Shop<T> {
         return arr.length == 3;
     }
 
-    public void addBuyer(int[] data, Comparator<Buyer> comparator) throws Exception {
+    public void addBuyer(int[] data, Comparator<Buyer> comparator, MyQueue boxOffice, List<Buyer> buyers) throws Exception {
         if (!isDataCorrect(data)) {
             throw new Exception("Data is incorrect");
         }
         Buyer buyer = Buyer.createNewBuyer(data);
         if (!isBuyerIncorrect(buyer)) {
-            boxOffice.addElement(buyer, comparator);
+            boxOffice.add(buyer, comparator);
         } else {
             buyer.setLeftTime(buyer.boxOfficeTime());
             buyers.add(buyer);
         }
     }
 
-    public List<Buyer> resultOfSimulation() {
-        int size = boxOffice.getSize();
+    public List<Buyer> resultOfSimulation(MyQueue boxOffice, List<Buyer> buyers) {
+        int size = boxOffice.count();
         int time = 0;
-        for (int i = buyers.size(); i < size; i++) {
+        for (int i = 0; i < size; i++) {
             try {
-                Buyer buyer = boxOffice.poll();
+                Buyer buyer = boxOffice.remove();
                 if (buyer.boxOfficeTime() >= time) {
                     buyer.setLeftTime(buyer.boxOfficeTime() + buyer.getN());
                 } else {
