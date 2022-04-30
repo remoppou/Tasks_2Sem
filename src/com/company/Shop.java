@@ -6,6 +6,14 @@ import java.util.List;
 
 public class Shop {
 
+    private MyQueue boxOffice;
+    private List<Buyer> buyers;
+
+    public Shop() {
+        boxOffice = new MyQueue();
+        buyers = new ArrayList<>();
+    }
+
     private boolean isBuyerIncorrect(Buyer buyer) {
         int N = buyer.getN();
         return (N == 0);
@@ -20,20 +28,20 @@ public class Shop {
         return arr.length == 3;
     }
 
-    public void addBuyer(int[] data, Comparator<Buyer> comparator, MyQueue boxOffice, List<Buyer> buyers) throws Exception {
+    public void addBuyer(int[] data) throws Exception {
         if (!isDataCorrect(data)) {
             throw new Exception("Data is incorrect");
         }
         Buyer buyer = Buyer.createNewBuyer(data);
         if (!isBuyerIncorrect(buyer)) {
-            boxOffice.add(buyer, comparator);
+            boxOffice.add(buyer);
         } else {
             buyer.setLeftTime(buyer.boxOfficeTime());
             buyers.add(buyer);
         }
     }
 
-    public List<Buyer> resultOfSimulation(MyQueue boxOffice, List<Buyer> buyers) {
+    public List<Buyer> resultOfSimulation() {
         int size = boxOffice.count();
         int time = 0;
         for (int i = 0; i < size; i++) {

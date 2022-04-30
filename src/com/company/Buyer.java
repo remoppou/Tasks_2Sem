@@ -1,6 +1,6 @@
 package com.company;
 
-public class Buyer {
+public class  Buyer {
 
     private int S;
     private int T;

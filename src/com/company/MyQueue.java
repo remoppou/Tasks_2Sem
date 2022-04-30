@@ -4,6 +4,19 @@ import java.util.Comparator;
 
 public class MyQueue {
 
+    private static Comparator<Buyer> comparator = new Comparator<Buyer>() {
+        @Override
+        public int compare(Buyer b1, Buyer b2) {
+            if (b1.boxOfficeTime() == b2.boxOfficeTime()) {
+                return 0;
+            }
+            if (b1.boxOfficeTime() > b2.boxOfficeTime()) {
+                return 1;
+            }
+            return -1;
+        }
+    };
+
     private class Element {
         public Buyer buyer;
         public Element next;
@@ -22,11 +35,11 @@ public class MyQueue {
     private Element tail = null;  // last
     private int count = 0;
 
-    public void add (Buyer buyer, Comparator<Buyer> comparator) throws Exception {
+    public void add (Buyer buyer) throws Exception {
         if (count == 0) {
             head = tail = new Element(buyer);
         } else {
-            findPlace(buyer, comparator);
+            findPlace(buyer);
         }
         count++;
     }
@@ -41,7 +54,7 @@ public class MyQueue {
         return result.buyer;
     }
 
-    private void findPlace(Buyer buyer, Comparator<Buyer> comparator) throws Exception {
+    private void findPlace(Buyer buyer) throws Exception {
         if (comparator.compare(head.buyer, buyer) >= 0) {
             head = new Element(buyer, head);
         } else if (comparator.compare(tail.buyer, buyer) < 0){

@@ -18,55 +18,37 @@ import static com.company.StandartQueue.*;
  «Рисовать» анимацию не требуется, достаточно, чтобы можно было ввести входные данные (или загрузить из файла)
  и просмотреть результат моделирования. */
 //Path PC: D:\IdeaProjects\Oop_Task3_num24-Shop-\src\Test.txt
-//Path NB: D:\Projects(IDEA)\Task3_var24\src\Test.txt
+//Path NB: D:\Projects(IDEA)\Oop_Task3_num24-Shop-\src\Test.txt
 
 
 public class Main {
 
-    public static Comparator<Buyer> comparator = new Comparator<Buyer>() {
-        @Override
-        public int compare(Buyer b1, Buyer b2) {
-            if (b1.boxOfficeTime() == b2.boxOfficeTime()) {
-                return 0;
-            }
-            if (b1.boxOfficeTime() > b2.boxOfficeTime()) {
-                return 1;
-            }
-            return -1;
-        }
-    };
-
     public static void startSimulationMyQueue(String fileName){
-        MyQueue boxOffice = new MyQueue();
-        List<Buyer> buyers = new ArrayList<>();
         int[][] arr = ArrayUtils.readIntArray2FromFile(fileName);
         Shop shop = new Shop();
         for(int i = 0; i < arr.length; i++){
             try {
-                shop.addBuyer(arr[i], comparator, boxOffice, buyers);
+                shop.addBuyer(arr[i]);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage()+" in line "+i);
             }
         }
-        showResult(shop.resultOfSimulation(boxOffice, buyers));
+        showResult(shop.resultOfSimulation());
     }
 
     public static void startSimulationStandartQueue(String fileName){
-        List<Buyer> buyers = new ArrayList<>();
-        List<Buyer> inShop = new ArrayList<>();
-        Queue<Buyer> boxOffice = new ArrayDeque<>();
+        StandartQueue standartQueue = new StandartQueue();
         int[][] arr = ArrayUtils.readIntArray2FromFile(fileName);
         for(int i = 0; i < arr.length; i++){
             try {
-                addBuyer(arr[i], inShop, buyers);
+                standartQueue.addBuyer(arr[i]);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage()+" in line "+i);
             }
         }
-        boxOffice = sortAndAdd(inShop, boxOffice);
-        showResult(resultOfSimulation(boxOffice, buyers));
+        showResult(standartQueue.resultOfSimulation());
     }
 
     public static void showResult(List<Buyer> buyers){
