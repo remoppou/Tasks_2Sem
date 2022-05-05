@@ -1,9 +1,6 @@
 package ru.vsu.cs.course1.tree;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class BinaryTreeAlgorithms {
 
@@ -17,6 +14,86 @@ public class BinaryTreeAlgorithms {
          */
         void visit(T value, int level);
     }
+
+    /**
+     *(*) В двоичном дереве для целых чисел содержатся как положительные, так и отрицательные элементы.
+     * Найти все поддеревья с максимумом суммы всех элементов поддерева. Вернуть в виде списка путей
+     * от вершины дерева до вершины каждого такого поддерева. Путь задается в виде строки из букв "L"
+     * (если на очередном шаге от узла мы идем к левому потомку) и "R" ( – если к правому потомку).
+     */
+
+
+    public static class Answer<T>{
+        public int max;
+        public List<BinaryTree.TreeNode<T>> roots;
+
+        Answer(int a, List<BinaryTree.TreeNode<T>> r) {
+            max = a;
+            roots = r;
+        }
+    }
+
+    public static <T> int findLargestSubtreeSumUtil(BinaryTree.TreeNode<T> root, Answer ans, List<BinaryTree.TreeNode<T>> roots) {
+        if (root == null) {
+            return 0;
+        }
+        int currSum = (int) root.getValue() + findLargestSubtreeSumUtil(root.getLeft(), ans, roots) + findLargestSubtreeSumUtil(root.getRight(), ans, roots);
+        if (currSum > ans.max){
+            roots.clear();
+            ans.max = currSum;
+            roots.add(root);
+        } else if (currSum == ans.max){
+            roots.add(root);
+        }
+        return currSum;
+    }
+
+
+    public static <T> Answer findLargestSubtreeSum(BinaryTree.TreeNode<T> root) {
+        List<BinaryTree.TreeNode<T>> roots = new ArrayList<>();
+        roots.add(root);
+        if (root == null) {
+            return null;
+        }
+        Answer ans = new Answer(-9999999, roots);
+        findLargestSubtreeSumUtil(root, ans, roots);
+        return ans;
+    }
+
+
+    public static <T> boolean hasPath(BinaryTree.TreeNode<T> root, ArrayList<String> arr, BinaryTree.TreeNode<T> x){
+        if (root==null)
+            return false;
+        if (root == x)
+            return true;
+        if(hasPath(root.getLeft(), arr, x)){
+            arr.add("L");
+            return true;
+        }
+        if(hasPath(root.getRight(), arr, x)){
+            arr.add("R");
+            return true;
+        }
+        return false;
+    }
+
+    public static <T> ArrayList<String> printPath(BinaryTree.TreeNode<T> root, BinaryTree.TreeNode<T> x) {
+        ArrayList<String> arr = new ArrayList<>();
+        if (hasPath(root, arr, x)){
+            Collections.reverse(arr);
+            return arr;
+        }
+        else System.out.print("No Path");
+        return arr;
+    }
+
+//-8 (-6 (4 (-5), 6), 5 (, 5 (-2, 8)))
+//-8 (-6 (4 (-5, 5), 6 (-5, 5)), -500 (-600 (-5, 5000), -50 (-2, 800)))
+//-8 (-6 (4 (-5, 5), -6000 (-5, 5000)), -500 (-600 (-5, 5000), -50 (-2, 5)))
+//-8 (-6 (4 (-5, 5000), -6000 (-5, 5000)), -500 (-600 (-5, 5000), -50 (-2, 5)))
+//-8 (-60000 ( 6000 (-5, 5000), 6000 (-5, 5000)), -500 (-600 (-5, 5000), -50 (-2, 5)))
+
+
 
 
     /**

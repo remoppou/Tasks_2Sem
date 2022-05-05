@@ -22,9 +22,9 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Random;
 
 public class TreeDemoFrame extends JFrame {
     private JPanel panelMain;
@@ -52,6 +52,7 @@ public class TreeDemoFrame extends JFrame {
     private JButton buttonToBracketNotation;
     private JCheckBox checkBoxTransparent;
     private JSpinner spinnerSingleValue;
+    private JButton ButtonFind;
 
     private JMenuBar menuBarMain;
     private JPanel paintPanel = null;
@@ -269,6 +270,34 @@ public class TreeDemoFrame extends JFrame {
                 }
             });
         });
+        ButtonFind.addActionListener(actionEvent -> {
+            showSystemOut(() -> {
+                BinaryTreeAlgorithms.Answer ans = BinaryTreeAlgorithms.findLargestSubtreeSum(tree.getRoot());
+                System.out.println("Наибольшая сумма: " + ans.max);
+
+                System.out.println();
+                System.out.println("Пути: ");
+
+                ArrayList<String> arr1;
+                ArrayList<String> pathes = new ArrayList<>();
+                for (int i = 0; i < ans.roots.size(); i++) {
+                    String path = "";
+                    BinaryTree.TreeNode tr = (BinaryTree.TreeNode) ans.roots.get(i);
+                    arr1 = BinaryTreeAlgorithms.printPath(tree.getRoot(), tr);
+                    if (arr1.size() == 0) {
+                        System.out.println("Вершиной поддерева является корневой узел");
+                    }
+                    for (int j = 0; j < arr1.size(); j++) {
+                        path += arr1.get(j);
+                    }
+                    pathes.add(path);
+                }
+
+                for (Object path : pathes) {
+                    System.out.println(path + " ");
+                }
+            });
+        });
     }
 
     /**
@@ -449,7 +478,7 @@ public class TreeDemoFrame extends JFrame {
         checkBoxTransparent.setText("прозрачность");
         panel7.add(checkBoxTransparent, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel8 = new JPanel();
-        panel8.setLayout(new GridLayoutManager(5, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel8.setLayout(new GridLayoutManager(6, 1, new Insets(0, 0, 0, 0), -1, -1));
         splitPaneMain.setRightComponent(panel8);
         buttonPreOrderTraverse = new JButton();
         buttonPreOrderTraverse.setText("Прямой обход");
@@ -464,9 +493,12 @@ public class TreeDemoFrame extends JFrame {
         buttonByLevelTraverse.setText("Обход в ширину");
         panel8.add(buttonByLevelTraverse, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel8.add(scrollPane1, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel8.add(scrollPane1, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         textAreaSystemOut = new JTextArea();
         scrollPane1.setViewportView(textAreaSystemOut);
+        ButtonFind = new JButton();
+        ButtonFind.setText("Найти поддеревья с макс. суммы и получить пути");
+        panel8.add(ButtonFind, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
