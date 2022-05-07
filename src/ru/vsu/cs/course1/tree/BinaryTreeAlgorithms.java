@@ -21,7 +21,9 @@ public class BinaryTreeAlgorithms {
      * от вершины дерева до вершины каждого такого поддерева. Путь задается в виде строки из букв "L"
      * (если на очередном шаге от узла мы идем к левому потомку) и "R" ( – если к правому потомку).
      */
-
+    //Компаратор для сравнения по T;
+    // Класс path с путями;
+    // Хранение пути
 
     public static class Answer<T>{
         public int max;
@@ -55,7 +57,7 @@ public class BinaryTreeAlgorithms {
         if (root == null) {
             return null;
         }
-        Answer ans = new Answer(-9999999, roots);
+        Answer ans = new Answer(-99999999, roots);
         findLargestSubtreeSumUtil(root, ans, roots);
         return ans;
     }
