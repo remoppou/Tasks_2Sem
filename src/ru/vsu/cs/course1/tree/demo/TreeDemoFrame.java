@@ -282,7 +282,7 @@ public class TreeDemoFrame extends JFrame {
                 ArrayList<String> pathes = new ArrayList<>();
                 for (int i = 0; i < ans.roots.size(); i++) {
                     String path = "";
-                    BinaryTree.TreeNode tr = (BinaryTree.TreeNode) ans.roots.get(i);
+                    BinaryTree.TreeNode tr = ans.roots.get(i);
                     arr1 = BinaryTreeAlgorithms.printPath(tree.getRoot(), tr);
                     if (arr1.size() == 0) {
                         System.out.println("Вершиной поддерева является корневой узел");
@@ -292,7 +292,6 @@ public class TreeDemoFrame extends JFrame {
                     }
                     pathes.add(path);
                 }
-
                 for (Object path : pathes) {
                     System.out.println(path + " ");
                 }

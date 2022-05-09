@@ -23,45 +23,53 @@ public class BinaryTreeAlgorithms {
      */
 
 
-    public static class Answer<T>{
-        public int max;
-        public List<BinaryTree.TreeNode<T>> roots;
+    private static Comparator<Integer> comparator = new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o1 - o2;
+        }
+    };
 
-        Answer(int a, List<BinaryTree.TreeNode<T>> r) {
+    public static class Answer{
+        public int max;
+        public List<BinaryTree.TreeNode<Integer>> roots;
+
+        Answer(int a, List<BinaryTree.TreeNode<Integer>> r) {
             max = a;
             roots = r;
         }
     }
 
-    public static <T> int findLargestSubtreeSumUtil(BinaryTree.TreeNode<T> root, Answer ans, List<BinaryTree.TreeNode<T>> roots) {
+    public static int findLargestSubtreeSumUtil(BinaryTree.TreeNode<Integer> root, Answer ans, List<BinaryTree.TreeNode<Integer>> roots) {
         if (root == null) {
             return 0;
         }
-        int currSum = (int) root.getValue() + findLargestSubtreeSumUtil(root.getLeft(), ans, roots) + findLargestSubtreeSumUtil(root.getRight(), ans, roots);
-        if (currSum > ans.max){
+        int currSum = root.getValue() + findLargestSubtreeSumUtil(root.getLeft(), ans, roots) + findLargestSubtreeSumUtil(root.getRight(), ans, roots);
+        if (comparator.compare(currSum, ans.max) > 0){
             roots.clear();
             ans.max = currSum;
             roots.add(root);
-        } else if (currSum == ans.max){
+        } else if (comparator.compare(currSum, ans.max) == 0){
             roots.add(root);
         }
         return currSum;
     }
 
 
-    public static <T> Answer findLargestSubtreeSum(BinaryTree.TreeNode<T> root) {
-        List<BinaryTree.TreeNode<T>> roots = new ArrayList<>();
-        roots.add(root);
+    public static Answer findLargestSubtreeSum(BinaryTree.TreeNode<Integer> root) {  //start
         if (root == null) {
             return null;
         }
-        Answer ans = new Answer(-9999999, roots);
+        int a = root.getValue();
+        List<BinaryTree.TreeNode<Integer>> roots = new ArrayList<>();
+        roots.add(root);
+        Answer ans = new Answer(a, roots);
         findLargestSubtreeSumUtil(root, ans, roots);
         return ans;
     }
 
 
-    public static <T> boolean hasPath(BinaryTree.TreeNode<T> root, ArrayList<String> arr, BinaryTree.TreeNode<T> x){
+    public static boolean hasPath(BinaryTree.TreeNode<Integer> root, ArrayList<String> arr, BinaryTree.TreeNode<Integer> x){
         if (root==null)
             return false;
         if (root == x)
@@ -77,13 +85,12 @@ public class BinaryTreeAlgorithms {
         return false;
     }
 
-    public static <T> ArrayList<String> printPath(BinaryTree.TreeNode<T> root, BinaryTree.TreeNode<T> x) {
+    public static <T> ArrayList<String> printPath(BinaryTree.TreeNode<Integer> root, BinaryTree.TreeNode<Integer> x) {
         ArrayList<String> arr = new ArrayList<>();
         if (hasPath(root, arr, x)){
             Collections.reverse(arr);
             return arr;
         }
-        else System.out.print("No Path");
         return arr;
     }
 
