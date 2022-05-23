@@ -39,6 +39,9 @@ public class BinaryTreeAlgorithms {
             roots = r;
         }
     }
+    public static interface Summator<T> {
+        T sum(T a, T b);
+    }
 
     public static int findLargestSubtreeSumUtil(BinaryTree.TreeNode<Integer> root, Answer ans, List<BinaryTree.TreeNode<Integer>> roots) {
         if (root == null) {
@@ -55,7 +58,9 @@ public class BinaryTreeAlgorithms {
         return currSum;
     }
 
-
+//
+//    public static <T> Answer<T> findLargestSubtreeSumX(BinaryTree.TreeNode<T> root, Comparator<T> cmp, Summator<T> summator) {  //start
+//    }
     public static Answer findLargestSubtreeSum(BinaryTree.TreeNode<Integer> root) {  //start
         if (root == null) {
             return null;

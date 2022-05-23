@@ -61,7 +61,12 @@ public class BinaryTreePainter {
         if (rightResult != null) {
             g2d.drawLine(thisX + TREE_NODE_WIDTH / 2, y + TREE_NODE_HEIGHT, rightResult.center, y + TREE_NODE_HEIGHT + VERTICAL_INDENT);
         }
-        g2d.drawRect(thisX, y, TREE_NODE_WIDTH, TREE_NODE_HEIGHT);
+        //if (Integer.parseInt(node.getValue().toString()) % 2 == 0) {
+        //    g2d.setColor(Color.RED);
+        //    g2d.fillRect(thisX, y, TREE_NODE_WIDTH, TREE_NODE_HEIGHT);
+        //} else {
+            g2d.drawRect(thisX, y, TREE_NODE_WIDTH, TREE_NODE_HEIGHT);
+        //}
         g2d.setColor(DrawUtils.getContrastColor(color));
         DrawUtils.drawStringInCenter(g2d, FONT, node.getValue().toString(), thisX, y, TREE_NODE_WIDTH, TREE_NODE_HEIGHT);
 
