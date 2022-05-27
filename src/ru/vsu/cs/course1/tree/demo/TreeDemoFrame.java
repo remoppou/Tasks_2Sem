@@ -21,9 +21,12 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 public class TreeDemoFrame extends JFrame {
@@ -272,7 +275,19 @@ public class TreeDemoFrame extends JFrame {
         });
         ButtonFind.addActionListener(actionEvent -> {
             showSystemOut(() -> {
-                BinaryTreeAlgorithms.Answer ans = BinaryTreeAlgorithms.findLargestSubtreeSum(tree.getRoot());
+                Comparator<Integer> comparator = new Comparator<Integer>() {
+                    @Override
+                    public int compare(Integer o1, Integer o2) {
+                        return o1 - o2;
+                    }
+                };
+                BinaryTreeAlgorithms.Summator<Integer> summator = new BinaryTreeAlgorithms.Summator<Integer>() {
+                    @Override
+                    public Integer sum(Integer a, Integer b, Integer c) {
+                        return a + b + c;
+                    }
+                };
+                BinaryTreeAlgorithms.Answer<Integer> ans = BinaryTreeAlgorithms.findLargestSubtreeSum(tree.getRoot(), comparator, summator);
                 System.out.println("Наибольшая сумма: " + ans.max);
 
                 System.out.println();
@@ -282,7 +297,7 @@ public class TreeDemoFrame extends JFrame {
                 ArrayList<String> pathes = new ArrayList<>();
                 for (int i = 0; i < ans.roots.size(); i++) {
                     String path = "";
-                    BinaryTree.TreeNode tr = ans.roots.get(i);
+                    BinaryTree.TreeNode<Integer> tr = ans.roots.get(i);
                     arr1 = BinaryTreeAlgorithms.printPath(tree.getRoot(), tr);
                     if (arr1.size() == 0) {
                         System.out.println("Вершиной поддерева является корневой узел");

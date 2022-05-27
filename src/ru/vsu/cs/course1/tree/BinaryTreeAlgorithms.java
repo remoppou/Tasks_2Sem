@@ -16,88 +16,80 @@ public class BinaryTreeAlgorithms {
     }
 
     /**
-     *(*) В двоичном дереве для целых чисел содержатся как положительные, так и отрицательные элементы.
+     * (*) В двоичном дереве для целых чисел содержатся как положительные, так и отрицательные элементы.
      * Найти все поддеревья с максимумом суммы всех элементов поддерева. Вернуть в виде списка путей
      * от вершины дерева до вершины каждого такого поддерева. Путь задается в виде строки из букв "L"
      * (если на очередном шаге от узла мы идем к левому потомку) и "R" ( – если к правому потомку).
      */
 
 
-    private static Comparator<Integer> comparator = new Comparator<Integer>() {
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o1 - o2;
-        }
-    };
+    public static class Answer<T> {
+        public T max;
+        public List<BinaryTree.TreeNode<T>> roots;
 
-    public static class Answer{
-        public int max;
-        public List<BinaryTree.TreeNode<Integer>> roots;
-
-        Answer(int a, List<BinaryTree.TreeNode<Integer>> r) {
-            max = a;
-            roots = r;
+        public Answer(T max, List<BinaryTree.TreeNode<T>> roots) {
+            this.max = max;
+            this.roots = roots;
         }
     }
-    public static interface Summator<T> {
-        T sum(T a, T b);
-    }
 
-    public static int findLargestSubtreeSumUtil(BinaryTree.TreeNode<Integer> root, Answer ans, List<BinaryTree.TreeNode<Integer>> roots) {
+    public static <T extends Number> Answer<T> findLargestSubtreeSum(BinaryTree.TreeNode<T> root, Comparator<T> comparator, Summator<T> summator) {
         if (root == null) {
-            return 0;
+            return null;
         }
-        int currSum = root.getValue() + findLargestSubtreeSumUtil(root.getLeft(), ans, roots) + findLargestSubtreeSumUtil(root.getRight(), ans, roots);
-        if (comparator.compare(currSum, ans.max) > 0){
+        T a = root.getValue();
+        List<BinaryTree.TreeNode<T>> roots = new ArrayList<>();
+        roots.add(root);
+        Answer<T> ans = new Answer(a, roots);
+        findLargestSubtreeSumUtil(root, ans, roots, comparator, summator);
+        return ans;
+    }
+
+    public static interface Summator<T>{
+        T sum (T a, T b, T c);
+    }
+
+    private static <T extends Number> T findLargestSubtreeSumUtil(BinaryTree.TreeNode<T> root, Answer<T> ans, List<BinaryTree.TreeNode<T>> roots, Comparator<T> comparator, Summator<T> summator) {
+        if (root == null) {
+            Integer a = 0;
+            return (T) a;
+        }
+        T currSum = summator.sum(root.getValue(), findLargestSubtreeSumUtil(root.getLeft(), ans, roots, comparator, summator), findLargestSubtreeSumUtil(root.getRight(), ans, roots, comparator, summator));
+        if (comparator.compare(currSum, ans.max) > 0) {
             roots.clear();
             ans.max = currSum;
             roots.add(root);
-        } else if (comparator.compare(currSum, ans.max) == 0){
+        } else if (comparator.compare(currSum, ans.max) == 0) {
             roots.add(root);
         }
         return currSum;
     }
 
-//
-//    public static <T> Answer<T> findLargestSubtreeSumX(BinaryTree.TreeNode<T> root, Comparator<T> cmp, Summator<T> summator) {  //start
-//    }
-    public static Answer findLargestSubtreeSum(BinaryTree.TreeNode<Integer> root) {  //start
-        if (root == null) {
-            return null;
-        }
-        int a = root.getValue();
-        List<BinaryTree.TreeNode<Integer>> roots = new ArrayList<>();
-        roots.add(root);
-        Answer ans = new Answer(a, roots);
-        findLargestSubtreeSumUtil(root, ans, roots);
-        return ans;
-    }
-
-
-    public static boolean hasPath(BinaryTree.TreeNode<Integer> root, ArrayList<String> arr, BinaryTree.TreeNode<Integer> x){
-        if (root==null)
+    public static <T> boolean hasPath(BinaryTree.TreeNode<T> root, ArrayList<String> arr, BinaryTree.TreeNode<T> x) {
+        if (root == null)
             return false;
         if (root == x)
             return true;
-        if(hasPath(root.getLeft(), arr, x)){
+        if (hasPath(root.getLeft(), arr, x)) {
             arr.add("L");
             return true;
         }
-        if(hasPath(root.getRight(), arr, x)){
+        if (hasPath(root.getRight(), arr, x)) {
             arr.add("R");
             return true;
         }
         return false;
     }
 
-    public static <T> ArrayList<String> printPath(BinaryTree.TreeNode<Integer> root, BinaryTree.TreeNode<Integer> x) {
+    public static <T> ArrayList<String> printPath(BinaryTree.TreeNode<T> root, BinaryTree.TreeNode<T> x) {
         ArrayList<String> arr = new ArrayList<>();
-        if (hasPath(root, arr, x)){
+        if (hasPath(root, arr, x)) {
             Collections.reverse(arr);
             return arr;
         }
         return arr;
     }
+
 
 //-8 (-6 (4 (-5), 6), 5 (, 5 (-2, 8)))
 //-8 (-6 (4 (-5, 5), 6 (-5, 5)), -500 (-600 (-5, 5000), -50 (-2, 800)))
@@ -106,14 +98,12 @@ public class BinaryTreeAlgorithms {
 //-8 (-60000 ( 6000 (-5, 5000), 6000 (-5, 5000)), -500 (-600 (-5, 5000), -50 (-2, 5)))
 
 
-
-
     /**
      * Обход поддерева с вершиной в данном узле
      * "посетителем" в прямом/NLR порядке - рекурсивная реализация
      *
      * @param treeNode Узел поддерева, которое требуется "обойти"
-     * @param visitor Посетитель
+     * @param visitor  Посетитель
      */
     public static <T> void preOrderVisit(BinaryTree.TreeNode<T> treeNode, Visitor<T> visitor) {
         // данный класс нужен только для того, чтобы "спрятать" его метод (c 3-мя параметрами)
@@ -171,7 +161,7 @@ public class BinaryTreeAlgorithms {
      * "посетителем" в симметричном/поперечном/центрированном/LNR порядке - рекурсивная реализация
      *
      * @param treeNode Узел поддерева, которое требуется "обойти"
-     * @param visitor Посетитель
+     * @param visitor  Посетитель
      */
     public static <T> void inOrderVisit(BinaryTree.TreeNode<T> treeNode, Visitor<T> visitor) {
         // данный класс нужен только для того, чтобы "спрятать" его метод (c 3-мя параметрами)
@@ -234,7 +224,7 @@ public class BinaryTreeAlgorithms {
      * "посетителем" в обратном/LRN порядке - рекурсивная реализация
      *
      * @param treeNode Узел поддерева, которое требуется "обойти"
-     * @param visitor Посетитель
+     * @param visitor  Посетитель
      */
     public static <T> void postOrderVisit(BinaryTree.TreeNode<T> treeNode, Visitor<T> visitor) {
         // данный класс нужен только для того, чтобы "спрятать" его метод (c 3-мя параметрами)
@@ -297,8 +287,8 @@ public class BinaryTreeAlgorithms {
 
 
     /**
-     *  Класс для хранения узла дерева вместе с его уровнем, нужен для методов
-     *  {@link #byLevelVisit(BinaryTree.TreeNode, Visitor)} и {@link #byLevelValues(BinaryTree.TreeNode)}
+     * Класс для хранения узла дерева вместе с его уровнем, нужен для методов
+     * {@link #byLevelVisit(BinaryTree.TreeNode, Visitor)} и {@link #byLevelValues(BinaryTree.TreeNode)}
      *
      * @param <T>
      */
@@ -316,7 +306,7 @@ public class BinaryTreeAlgorithms {
      * Обход поддерева с вершиной в данном узле "посетителем" по уровням (обход в ширину)
      *
      * @param treeNode Узел поддерева, которое требуется "обойти"
-     * @param visitor Посетитель
+     * @param visitor  Посетитель
      */
     public static <T> void byLevelVisit(BinaryTree.TreeNode<T> treeNode, Visitor<T> visitor) {
         Queue<QueueItem<T>> queue = new LinkedList<>();
