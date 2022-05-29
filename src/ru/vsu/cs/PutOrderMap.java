@@ -37,8 +37,8 @@ public class PutOrderMap <K extends Comparable<? super K>, V> implements Default
         }
     }
 
-    Map<K, Pair<K, V>> keyMap = new TreeMap<>();
-    Map<Integer, Pair<K, V>> orderMap = new TreeMap<>();
+    Map<K, Pair<K, V>> keyMap = new TreeMap<>(); //ключ -> (значение + порядок добавления)
+    Map<Integer, Pair<K, V>> orderMap = new TreeMap<>();  //порядок добавления –> (значение + ключ))
     int order = 0;
 
     @Override
@@ -72,7 +72,7 @@ public class PutOrderMap <K extends Comparable<? super K>, V> implements Default
     }
 
     @Override
-    public void putAll(Map<? extends K, ? extends V> m) {
+    public void putAll(Map<? extends K, ? extends V> m) {   //взял из BSTMap
         m.entrySet().forEach((entry) -> {
             keyMap.put(entry.getKey(), new Pair(entry.getKey(), entry.getValue(), order));
             orderMap.put(order, new Pair<>(entry.getKey(), entry.getValue(), order));
@@ -88,7 +88,7 @@ public class PutOrderMap <K extends Comparable<? super K>, V> implements Default
     }
 
     @Override
-    public Set<Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {   //BSTMap
         return new DefaultNotSupportedSet<Entry<K, V>>() {
             @Override
             public int size() {
@@ -103,7 +103,7 @@ public class PutOrderMap <K extends Comparable<? super K>, V> implements Default
     }
 
     @Override
-    public Set<K> keySet() {
+    public Set<K> keySet() {   //BSTMap
         return new DefaultNotSupportedSet<K>() {
             Iterator<Map.Entry<K, V>> entryIterator = entrySet().iterator();
 
@@ -131,7 +131,7 @@ public class PutOrderMap <K extends Comparable<? super K>, V> implements Default
     }
 
     @Override
-    public Collection<V> values() {
+    public Collection<V> values() {  //BSTMap
         return new DefaultNotSupportedCollection<V>() {
             Iterator<Map.Entry<K, V>> entryIterator = entrySet().iterator();
 
