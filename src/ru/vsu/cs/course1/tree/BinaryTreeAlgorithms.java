@@ -41,20 +41,34 @@ public class BinaryTreeAlgorithms {
         List<BinaryTree.TreeNode<T>> roots = new ArrayList<>();
         roots.add(root);
         Answer<T> ans = new Answer(a, roots);
-        findLargestSubtreeSumUtil(root, ans, roots, comparator, summator);
+        Summator<T> xSum = new Summator<T>() {
+            @Override
+            public T sum(T a, T b) {
+                if (a != null && b != null)
+                    return summator.sum(a, b);
+                if (a == null)
+                    return b;
+                return a;
+            }
+        };
+        findLargestSubtreeSumUtil(root, ans, roots, comparator, xSum);
         return ans;
     }
 
     public static interface Summator<T>{
-        T sum (T a, T b, T c);
+        T sum (T a, T b);
     }
 
-    private static <T extends Number> T findLargestSubtreeSumUtil(BinaryTree.TreeNode<T> root, Answer<T> ans, List<BinaryTree.TreeNode<T>> roots, Comparator<T> comparator, Summator<T> summator) {
+    private static <T> T findLargestSubtreeSumUtil(BinaryTree.TreeNode<T> root, Answer<T> ans, List<BinaryTree.TreeNode<T>> roots, Comparator<T> comparator, Summator<T> summator) {
         if (root == null) {
-            Integer a = 0;
-            return (T) a;
+            return null;
         }
-        T currSum = summator.sum(root.getValue(), findLargestSubtreeSumUtil(root.getLeft(), ans, roots, comparator, summator), findLargestSubtreeSumUtil(root.getRight(), ans, roots, comparator, summator));
+        T currSum = root.getValue();
+        if (root.getLeft() != null)
+            currSum = summator.sum(currSum, findLargestSubtreeSumUtil(root.getLeft(), ans, roots, comparator, summator));
+        if (root.getRight() != null)
+            currSum = summator.sum(currSum, findLargestSubtreeSumUtil(root.getRight(), ans, roots, comparator, summator));
+
         if (comparator.compare(currSum, ans.max) > 0) {
             roots.clear();
             ans.max = currSum;

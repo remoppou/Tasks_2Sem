@@ -283,8 +283,8 @@ public class TreeDemoFrame extends JFrame {
                 };
                 BinaryTreeAlgorithms.Summator<Integer> summator = new BinaryTreeAlgorithms.Summator<Integer>() {
                     @Override
-                    public Integer sum(Integer a, Integer b, Integer c) {
-                        return a + b + c;
+                    public Integer sum(Integer a, Integer b) {
+                        return a + b;
                     }
                 };
                 BinaryTreeAlgorithms.Answer<Integer> ans = BinaryTreeAlgorithms.findLargestSubtreeSum(tree.getRoot(), comparator, summator);
