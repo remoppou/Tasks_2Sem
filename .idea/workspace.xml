@@ -6,7 +6,29 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0f30c31-7042-41d8-8fa8-a81744b8b657" name="Default Changelist" comment="" />
+    <list default="true" id="d0f30c31-7042-41d8-8fa8-a81744b8b657" name="Default Changelist" comment="Second commit">
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/GraphSamples_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/GraphSamples_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/guru_nidi_graphviz_java_0_14_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/guru_nidi_graphviz_java_0_14_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex1.png" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex3.png" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex3.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex4.1.png" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex4.1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex4.1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex4.1.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex4.2.png" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex4.2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/output/ex4.2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/files/output/ex4.2.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/AdjMatrixGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/AdjMatrixGraph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/GraphAlgorithms.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/GraphAlgorithms.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphUtils.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,6 +45,20 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -36,20 +72,23 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="418" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Лекция 10. Хеш-таблицы/HashSamples" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.22419627" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="ru.vsu.cs.course1.graph" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ru.vsu.cs.course1.graph" />
     </key>
   </component>
   <component name="RunManager">
@@ -72,8 +111,48 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1587301851859</updated>
+      <workItem from="1655066139449" duration="1959000" />
+      <workItem from="1655125799174" duration="1256000" />
+      <workItem from="1655133687000" duration="5846000" />
+      <workItem from="1655206052410" duration="719000" />
+      <workItem from="1655211711226" duration="687000" />
+      <workItem from="1655321579333" duration="674000" />
+      <workItem from="1655378758897" duration="8403000" />
+      <workItem from="1655399971042" duration="326000" />
+      <workItem from="1655541592026" duration="9161000" />
+      <workItem from="1655644736504" duration="25872000" />
+      <workItem from="1655733394913" duration="17103000" />
+      <workItem from="1655753131772" duration="224000" />
+      <workItem from="1655753752036" duration="479000" />
     </task>
+    <task id="LOCAL-00001" summary="Second commit">
+      <created>1622212057858</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1622212057858</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Second commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Second commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -83,12 +162,20 @@
           <line>148</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ru/vsu/cs/course1/graph/demo/GraphDemoFrame.java</url>
-          <line>398</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="e1.edge.v1" />
+        <watch expression="e1.edge.v2" />
+        <watch expression="e.edge.v1" />
+        <watch expression="e.edge.v2" />
+        <watch expression="newEdges.get(1)" />
+        <watch expression="newEdges.get(1).edges" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/GraphSamples$Main.ic" NAME="Main Coverage Results" MODIFIED="1625102564948" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

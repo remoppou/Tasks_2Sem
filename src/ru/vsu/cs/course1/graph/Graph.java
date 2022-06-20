@@ -51,4 +51,8 @@ public interface Graph {
         }
         return false;
     }
+
+    default Graph copy() {
+        return null;
+    }
 }

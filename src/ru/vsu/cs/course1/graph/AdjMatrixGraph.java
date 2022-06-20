@@ -113,4 +113,16 @@ public class AdjMatrixGraph implements Graph {
     public boolean isAdj(int v1, int v2) {
         return adjMatrix[v1][v2];
     }
+
+    @Override
+    public AdjMatrixGraph copy() {
+        AdjMatrixGraph copied = new AdjMatrixGraph();
+        copied.eCount = this.eCount;
+        copied.vCount = this.vCount;
+        copied.adjMatrix = new boolean[vCount][vCount];
+        for (int i = 0; i < adjMatrix.length; i++) {
+            System.arraycopy(this.adjMatrix[i], 0, copied.adjMatrix[i], 0, adjMatrix.length);
+        }
+        return copied;
+    }
 }
