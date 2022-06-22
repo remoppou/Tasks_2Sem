@@ -1,7 +1,5 @@
 package ru.vsu.cs.course1.graph;
 
-import com.kitfox.svg.A;
-
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -32,7 +30,7 @@ public class GraphAlgorithms {
         new Inner().visit(from);
     }
 
-    private record Edge(int v1, int v2) {
+    public record Edge(int v1, int v2) {
 
         @Override
         public boolean equals(Object o) {
@@ -60,6 +58,10 @@ public class GraphAlgorithms {
         public EdgeAndEdges(Edge edge, ArrayList<Edge> edges) {
             this.edge = edge;
             this.edges = edges;
+        }
+
+        public ArrayList<Edge> getEdges() {
+            return edges;
         }
     }
 //    public static Graph makeNAgreeGraph2(Graph graph, int n) {
@@ -155,9 +157,47 @@ public class GraphAlgorithms {
 //        return graph;
 //    }
 
+    public static class GraphAndEdges{
+
+        private Graph graph;
+        private List<Edge> edges;
+
+        public GraphAndEdges(Graph graph, List<Edge> edges) {
+            this.graph = graph;
+            this.edges = edges;
+        }
+
+        public List<Edge> getEdges() {
+            return edges;
+        }
+
+        public Graph getGraph() {
+            return graph;
+        }
+    }
+
+    public static class IntAndEdges {
+        private int count;
+        private List<Edge> edges;
+
+        public IntAndEdges(int count, List<Edge> edges) {
+            this.count = count;
+            this.edges = edges;
+        }
+
+        public List<Edge> getEdges() {
+            return edges;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+    
     //recheck - во время второго прохождения по ребрам
-    private static int forLoop(Graph graph, int n, boolean recheck, ArrayList<Edge> edges) {
+    private static IntAndEdges forLoop(Graph graph, int n, boolean recheck, ArrayList<Edge> edges) {
         int vertex = graph.vertexCount();
+        List<Edge> edges1 = new ArrayList<>();
         int count = 1;
         for (int v1 = 0; v1 < vertex; v1++) {
             for (int v2 = v1 + 1; v2 < vertex; v2++) {
@@ -167,42 +207,48 @@ public class GraphAlgorithms {
                             graph.removeAdge(v1, v2);
                         } else {
                             count++;
+                            Edge edge = new Edge(v1,v2);
+                            edges1.add(edge);
                         }
                     }
                 }
             }
         }
-        return count;
+        IntAndEdges intAndEdges = new IntAndEdges(count, edges1);
+        return intAndEdges;
     }
 
-    //здесь сейчас в первом цикле forLoop берутся все возможные ребра
-    //потом в следующем цикле мы идем по этим ребрам, и перепровреям пути
-    //и выбираем самый лучший(меньше всего построенных ребер)
-    //и возвращаем этот лучший граф
-    public static Graph makeNAgreeGraph(Graph graph, int n) {
+    /**
+     * в первом цикле forLoop берутся все возможные ребра
+     * потом в следующем цикле мы идем по этим ребрам, и перепровреям пути
+     * и выбираем самый лучший(меньше всего построенных ребер)
+     * и возвращаем этот лучший граф
+     */
+    public static GraphAndEdges makeNAgreeGraph(Graph graph, int n) {
         Graph copied = graph;
         Graph vanillaGraph = graph.copy();
         ArrayList<Edge> edges = new ArrayList<>();
+        IntAndEdges intAndEdges = null;
         forLoop(graph, n, false, edges);
         graph = vanillaGraph.copy();
         int count;
         int bestCounter = -1;
         for (Edge edge : edges) {
             graph.addAdge(edge.v1, edge.v2);
-            count = forLoop(graph, n, true, new ArrayList<>());
+            intAndEdges = forLoop(graph, n, true, new ArrayList<>());
             if (bestCounter == -1) {
-                bestCounter = count;
+                bestCounter = intAndEdges.getCount();
                 copied = graph.copy();
-            } else if (bestCounter > count) {
-                bestCounter = count;
+            } else if (bestCounter > intAndEdges.getCount()) {
+                bestCounter = intAndEdges.getCount();
                 copied = graph.copy();
             }
             graph = vanillaGraph.copy();
         }
-        return copied;
+        GraphAndEdges graphAndEdges = new GraphAndEdges(copied, intAndEdges.getEdges());
+        return graphAndEdges;
     }
 
-    //ниче не поменялось
     private static boolean solve(Graph graph, int v1, int v2, int n, int currentCountOfN, int initialVertex, ArrayList<Integer> noCheckVerticies,
                                   ArrayList<Edge> edges) {
         boolean ifSuccesful;

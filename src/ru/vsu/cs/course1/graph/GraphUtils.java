@@ -3,8 +3,10 @@ package ru.vsu.cs.course1.graph;
 import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
+
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -102,6 +104,32 @@ public class GraphUtils {
         }
 
         return graph;
+    }
+
+
+    public static String myToDot(Graph graph, List<GraphAlgorithms.Edge> edgeList) {
+        StringBuilder sb = new StringBuilder();
+        String nl = System.getProperty("line.separator");
+        boolean isDigraph = graph instanceof Digraph;
+        sb.append(isDigraph ? "digraph" : "strict graph").append(" {").append(nl);
+        for (int v1 = 0; v1 < graph.vertexCount(); v1++) {
+            int count = 0;
+            for (Integer v2 : graph.adjacencies(v1)) {
+                String color = "";
+                GraphAlgorithms.Edge myEdge = new GraphAlgorithms.Edge(v1,v2);
+                if (edgeList.contains(myEdge)) {
+                    color = "[color=red]";
+                }
+                sb.append(String.format("  %d %s %d %s", v1, (isDigraph ? "->" : "--"), v2, color)).append(nl);
+                count++;
+            }
+            if (count == 0) {
+                sb.append(v1).append(nl);
+            }
+        }
+        sb.append("}").append(nl);
+
+        return sb.toString();
     }
 
 
